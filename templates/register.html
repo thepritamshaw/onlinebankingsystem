@@ -1,0 +1,35 @@
+<h1>Open your Online Savings Account</h1>
+
+<style>
+	h5{
+		color: red;
+	}
+</style>
+
+{% for message in messages %}
+<h5>{{message}}</h5>
+{% endfor %}
+
+<form method="POST" action="register">
+	{% csrf_token %}
+	<p>First Name</p>
+	<input type="text" name="firstname" />
+	<p>Last Name</p>
+	<input type="text" name="lastname" />
+	<p>Father's Name</p>
+	<input type="text" name="fathername" />
+	<p>Mother's Name</p>
+	<input type="text" name="mothername" />
+	<p>Address</p>
+	<input type="text" name="address" />
+	<p>Username</p>
+	<input type="text" name="username" />
+	<p>Email</p>
+	<input type="email" name="email" />
+	<p>Enter Password</p>
+	<input type="password" name="password" />
+	<p>Retype your Password</p>
+	<input type="password" name="password1" /><br>
+	<input type="submit" />
+
+</form>
