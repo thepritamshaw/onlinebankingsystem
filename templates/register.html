@@ -12,6 +12,7 @@
 
 <form method="POST" action="register">
 	{% csrf_token %}
+
 	<p>First Name</p>
 	<input type="text" name="firstname" />
 	<p>Last Name</p>
@@ -21,8 +22,16 @@
 	<p>Mother's Name</p>
 	<input type="text" name="mothername" />
 	<p>Address</p>
-	<input type="text" name="address" />
-	<p>Username</p>
+	<p>Street</p>
+	<input type="text" name="street" />
+	<p>City</p>
+	<input type="text" name="city" />
+	<p>Pincode</p>
+	<input name="pincode" type="text" inputmode="numeric" pattern="[0-9]{6}">
+	<p>Mobile Number</p>
+	<input name="mobilenumber" type="text" inputmode="numeric" pattern="[0-9]{10}">
+	
+	<p>Create Username</p>
 	<input type="text" name="username" />
 	<p>Email</p>
 	<input type="email" name="email" />
