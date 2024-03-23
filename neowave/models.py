@@ -23,17 +23,15 @@ class Branch(models.Model):
 	address = models.CharField(max_length=255)
 	ifsc = models.CharField(max_length=11, unique=True)
 	pincode = models.CharField(max_length=6)
-	branch_id = models.CharField(max_length=2, choices=[(str(i).zfill(2), str(i).zfill(2)) for i in range(100)], default='00')
-
 	def __str__(self):
 		return self.branch_name
-
 
 
 class Account(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	account_number = models.CharField(max_length=12, unique=True)
-	ifsc = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True)
+	branch_name = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True)
+	ifsc = models.CharField(max_length=11, default='')
 	balance = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 	opened_date = models.DateField(default=timezone.now)
 	is_active = models.BooleanField(default=True)
@@ -41,11 +39,12 @@ class Account(models.Model):
 
 	def save(self, *args, **kwargs):
 		if self.pk is None:
-			if self.ifsc:
-				branch_id = self.ifsc.branch_id
-				account_numbers = Account.objects.filter(ifsc__branch_id=branch_id)
+			if self.branch_name:
+				self.ifsc = self.branch_name.ifsc
+
+				account_numbers = Account.objects.filter(branch_name=self.branch_name)
 				next_account_number = str(account_numbers.count() + 1).zfill(6)
-				self.account_number = f"2807{branch_id}{next_account_number}"
+				self.account_number = f"{self.branch_name.ifsc[-6:]}{next_account_number}"
 
 		profile = self.user.profile
 		self.account_holder_name = f"{profile.firstname} {profile.lastname}"

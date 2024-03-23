@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from .models import Profile
+from .models import Profile, Branch, Account
+from django.utils import timezone
 
 # Create your views here.
 def index(request):
@@ -22,6 +23,8 @@ def register(request):
 		email = request.POST['email']
 		password = request.POST['password']
 		password1 = request.POST['password1']
+		branch_id = request.POST.get('branch')  # Get the selected branch ID from the form
+		branch = Branch.objects.get(id=branch_id)
 
 		if password == password1:
 			if User.objects.filter(email=email).exists():
@@ -40,6 +43,8 @@ def register(request):
 
 				profile = Profile.objects.create(
 					user=user,
+					firstname=firstname,
+					lastname=lastname,
 					fathername=fathername,
 					mothername=mothername,
 					street=street,
@@ -47,12 +52,19 @@ def register(request):
 					pincode=pincode,
 					mobilenumber=mobilenumber
 				)
+
+				account = Account.objects.create(
+					user=user,
+					branch_name=branch,
+				)
+
 				return redirect('login')
 		else:
 			messages.info(request, 'Password not Matching')
 			return redirect('register')
 	else:
-		return render(request, 'register.html')
+		branches = Branch.objects.all()
+		return render(request, 'register.html', {'branches': branches})
 
 def login(request):
 	if request.method =='POST':

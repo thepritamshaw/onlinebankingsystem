@@ -30,6 +30,12 @@
 	<input name="pincode" type="text" inputmode="numeric" pattern="[0-9]{6}">
 	<p>Mobile Number</p>
 	<input name="mobilenumber" type="text" inputmode="numeric" pattern="[0-9]{10}">
+	<p>Choose Branch</p>
+	<select name="branch">
+		{% for branch in branches %}
+			<option value="{{ branch.pk }}">{{ branch.branch_name }} ({{ branch.pincode}})</option>
+		{% endfor %}
+	</select>
 	
 	<p>Create Username</p>
 	<input type="text" name="username" />
