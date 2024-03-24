@@ -151,8 +151,8 @@ def initiate_transaction(request):
 			messages.error(request, 'Beneficiary account does not exist.')
 			return redirect('initiate_transaction')
 
-		if amount<1:
-			messages.error(request, 'Amount should be greater than ₹1')
+		if amount <= Decimal('0'):
+			messages.error(request, 'Amount should be greater than ₹0')
 			return redirect('initiate_transaction')
 
 		beneficiary_name = beneficiary_account.account_holder_name
