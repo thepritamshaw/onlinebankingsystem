@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from .models import Profile, Branch, Account
-from django.utils import timezone
+from .models import Profile, Branch, Account, Transaction
+from decimal import Decimal
 
 # Create your views here.
 def index(request):
@@ -108,3 +109,60 @@ def createaccount(request):
 	else:
 		branches = Branch.objects.all()
 		return render(request, 'createaccount.html', {'branches': branches})
+
+@login_required
+def initiate_transaction(request):
+	if request.method == 'POST':
+		sender_account_id = request.POST.get('sender_account')
+		beneficiary_account_number = request.POST.get('beneficiary_account_number')
+		beneficiary_ifsc = request.POST.get('beneficiary_ifsc')
+		amount = Decimal(request.POST.get('amount'))
+		password = request.POST.get('password')
+
+		try:
+			# Retrieve sender's account
+			sender_account = Account.objects.get(id=sender_account_id)
+		except Account.DoesNotExist:
+			messages.error(request, 'Invalid sender account.')
+			return redirect('initiate_transaction')
+
+		# Validate sender's password
+		if not sender_account.user.check_password(password):
+			messages.error(request, 'Incorrect password.')
+			return redirect('initiate_transaction')
+
+		try:
+			# Check if beneficiary account exists
+			beneficiary_account = Account.objects.get(account_number=beneficiary_account_number, ifsc=beneficiary_ifsc)
+		except Account.DoesNotExist:
+			messages.error(request, 'Beneficiary account does not exist.')
+			return redirect('initiate_transaction')
+
+		# Check if sender has enough balance
+		if sender_account.balance < amount:
+			messages.error(request, 'Insufficient balance.')
+			return redirect('initiate_transaction')
+
+		# Perform transaction
+		sender_account.balance -= amount
+		sender_account.save()
+		beneficiary_account.balance += amount
+		beneficiary_account.save()
+
+		# Create transaction record
+		transaction = Transaction.objects.create(
+			sender_account=sender_account,
+			receiver_account_number=beneficiary_account_number,
+			receiver_ifsc=beneficiary_ifsc,
+			amount=amount
+		)
+		return redirect('transaction_success')
+	else:
+		# Get the accounts of the logged-in user for the dropdown menu
+		sender_accounts = Account.objects.filter(user=request.user)
+		return render(request, 'initiate_transaction.html', {'sender_accounts': sender_accounts})
+		
+@login_required
+def transaction_success(request):
+	transaction = Transaction.objects.all()
+	return render(request, 'transaction_success.html', {'transaction': transaction})

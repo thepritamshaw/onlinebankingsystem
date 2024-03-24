@@ -57,7 +57,7 @@ class Account(models.Model):
 
 
 class Transaction(models.Model):
-	sender = models.ForeignKey(User, related_name='sent_transactions', on_delete=models.CASCADE)
+	sender_account = models.ForeignKey(Account, related_name='sent_transactions', on_delete=models.CASCADE)
 	receiver_account_number = models.CharField(max_length=12)
 	receiver_ifsc = models.CharField(max_length=11)
 	amount = models.DecimalField(max_digits=10, decimal_places=2)
@@ -66,10 +66,9 @@ class Transaction(models.Model):
 
 	def save(self, *args, **kwargs):
 		if not self.bank_reference_no:
-			# Get the latest transaction with a bank_reference_no
 			last_transaction = Transaction.objects.filter(bank_reference_no__isnull=False).order_by('-bank_reference_no').first()
 			if last_transaction:
-				last_reference_no = int(last_transaction.bank_reference_no[1:])  # Extract the numeric part
+				last_reference_no = int(last_transaction.bank_reference_no[1:])
 				new_reference_no = last_reference_no + 1
 				self.bank_reference_no = f'B{str(new_reference_no).zfill(8)}'
 			else:
@@ -78,4 +77,4 @@ class Transaction(models.Model):
 		super().save(*args, **kwargs)
 
 	def __str__(self):
-		return f"Transaction #{self.pk} - {self.sender.username} to {self.receiver_account_number}"
+		return self.bank_reference_no

@@ -1,2 +1,9 @@
 - On changing the branch name in Account, the ifsc is not getting updated automatically
 - Same with changing the firstname etc, the account_holder_name is not changing
+- Consider negative amount transfered
+- incorporate is_active instead of deleting accounts
+
+
+Minor issues
+- More refined CSS
+- A better landing page

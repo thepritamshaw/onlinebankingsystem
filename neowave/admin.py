@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Branch, Account
+from .models import Profile, Branch, Account, Transaction
 
 admin.site.register(Profile)
 admin.site.register(Branch)
@@ -24,3 +24,8 @@ class AccountAdmin(admin.ModelAdmin):
 		super().save_model(request, obj, form, change)
 
 admin.site.register(Account, AccountAdmin)
+
+class TransactionAdmin(admin.ModelAdmin):
+	list_display = ['bank_reference_no', 'amount', 'timestamp', 'sender_account', 'receiver_account_number', 'receiver_ifsc']
+
+admin.site.register(Transaction, TransactionAdmin)
