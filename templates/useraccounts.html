@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>User Accounts</title>
+</head>
+<body>
+	<h1>User Accounts</h1>
+
+	<h2>User: {{ user.username }}</h2>
+
+	{% if accounts %}
+		<table border="1">
+			<thead>
+				<tr>
+					<th>Account Number</th>
+					<th>Branch Name</th>
+					<th>IFSC</th>
+					<th>Balance</th>
+					<th>Opened Date</th>
+					<th>Is Active</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for account in accounts %}
+					<tr>
+						<td>{{ account.account_number }}</td>
+						<td>{{ account.branch_name }}</td>
+						<td>{{ account.ifsc }}</td>
+						<td>{{ account.balance }}</td>
+						<td>{{ account.opened_date }}</td>
+						<td>{{ account.is_active }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<p>No accounts found.</p>
+	{% endif %}
+
+	<a href="createaccount"><button>Create New Account</button></a>
+</body>
+</html>

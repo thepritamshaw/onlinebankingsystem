@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
@@ -83,3 +84,24 @@ def login(request):
 def logout(request):
 	auth.logout(request)
 	return redirect('/')
+
+def useraccounts(request):
+	accounts = Account.objects.filter(user=request.user)
+	branches = Branch.objects.all()
+	return render(request, 'useraccounts.html', {'accounts': accounts, 'branches': branches})
+
+
+@login_required
+def createaccount(request):
+    if request.method == 'POST':
+        user = request.user
+        branch_id = request.POST.get('branch')  # Get the selected branch ID from the form
+        branch = Branch.objects.get(id=branch_id)
+        account = Account.objects.create(
+            user=user,
+            branch_name=branch,
+        )
+        return redirect('useraccounts')  # Redirect to the user accounts page after account creation
+    else:
+        branches = Branch.objects.all()
+        return render(request, 'createaccount.html', {'branches': branches})

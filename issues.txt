@@ -1,0 +1,2 @@
+- On changing the branch name in Account, the ifsc is not getting updated automatically
+- Same with changing the firstname etc, the account_holder_name is not changing

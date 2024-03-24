@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Create New Account</title>
+</head>
+<body>
+	<h1>Create New Account</h1>
+	<form method="post">
+		{% csrf_token %}
+		<label for="branch">Select Branch:</label>
+		<select name="branch" id="branch">
+			{% for branch in branches %}
+				<option value="{{ branch.id }}">{{ branch.branch_name }} ({{ branch.ifsc }})</option>
+			{% endfor %}
+		</select>
+		<br>
+		<button type="submit">Create Account</button>
+	</form>
+	<a href="{% url 'useraccounts' %}">Back to User Accounts</a>
+</body>
+</html>
