@@ -34,6 +34,8 @@
 					<input type="text" name="beneficiary_account_number" required>
 					<p>Beneficiary IFSC Code:</p>
 					<input type="text" name="beneficiary_ifsc" required>
+					<p>Beneficiary Name:</p>
+					<input type="text" id="beneficiary_name" readonly>
 					<p>Amount</p>
 					<input type="number" name="amount" pattern="\d+(\.\d{1,2})?" title="Enter a valid decimal number" required autocomplete="off">
 					<p>Password:</p>
@@ -45,5 +47,30 @@
 			</div>
 		</div>
 	</section>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+	$(document).ready(function() {
+		$('input[name="beneficiary_account_number"], input[name="beneficiary_ifsc"]').on('input', function() {
+			var accountNumber = $('input[name="beneficiary_account_number"]').val();
+			var ifsc = $('input[name="beneficiary_ifsc"]').val();
+			
+			// Make AJAX request to fetch beneficiary name
+			$.ajax({
+				url: '/get_beneficiary_name/',
+				type: 'GET',
+				data: {
+					'account_number': accountNumber,
+					'ifsc': ifsc
+				},
+				success: function(response) {
+					$('#beneficiary_name').val(response.beneficiary_name);
+				},
+				error: function(xhr, status, error) {
+					console.error(xhr.responseText);
+				}
+			});
+		});
+	});
+	</script>
 	{% endblock%}
 </body>

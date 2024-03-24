@@ -9,5 +9,6 @@ urlpatterns = [
 	path('useraccounts', views.useraccounts, name= 'useraccounts'),
 	path('createaccount', views.createaccount, name='createaccount'),
 	path('initiate_transaction', views.initiate_transaction, name='initiate_transaction'),
-	path('transaction_success', views.transaction_success, name='transaction_success'),
+	path('transaction_success/<str:bank_reference_no>/', views.transaction_success, name='transaction_success'),
+	path('get_beneficiary_name/', views.get_beneficiary_name, name='get_beneficiary_name'),
 ]

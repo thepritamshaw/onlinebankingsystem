@@ -18,10 +18,11 @@
 	<section>
 		<div class="container">
 			<div class="content">
+				<p></p>
 				<h1><span class="amount_rs">₹ {{ transaction.amount }}</span></h1>
 				<h3>Transaction Successful</h3>
 				<p>Your transaction has been successfully completed.</p><br>
-				<p>{{ transaction.timestamp }}</p>
+				<p>Paid at {{ transaction.timestamp }}</p>
 				<p>Bank Reference Number: {{ transaction.bank_reference_no }}</p>
 				<p>Reciever Account Number: {{ transaction.receiver_account_number }}</p>
 				<a href="{% url 'useraccounts' %}">Back to User Accounts</a>

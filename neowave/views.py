@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
@@ -90,6 +90,7 @@ def logout(request):
 	auth.logout(request)
 	return redirect('/')
 
+@login_required
 def useraccounts(request):
 	accounts = Account.objects.filter(user=request.user)
 	branches = Branch.objects.all()
@@ -109,6 +110,18 @@ def createaccount(request):
 	else:
 		branches = Branch.objects.all()
 		return render(request, 'createaccount.html', {'branches': branches})
+
+def get_beneficiary_name(request):
+    if request.method == 'GET':
+        account_number = request.GET.get('account_number')
+        ifsc = request.GET.get('ifsc')
+        
+        try:
+            beneficiary_account = Account.objects.get(account_number=account_number, ifsc=ifsc)
+            beneficiary_name = beneficiary_account.account_holder_name
+            return JsonResponse({'beneficiary_name': beneficiary_name})
+        except Account.DoesNotExist:
+            return JsonResponse({'error': 'Beneficiary account not found'}, status=404)
 
 @login_required
 def initiate_transaction(request):
@@ -138,6 +151,12 @@ def initiate_transaction(request):
 			messages.error(request, 'Beneficiary account does not exist.')
 			return redirect('initiate_transaction')
 
+		if amount<1:
+			messages.error(request, 'Amount should be greater than ₹1')
+			return redirect('initiate_transaction')
+
+		beneficiary_name = beneficiary_account.account_holder_name
+
 		# Check if sender has enough balance
 		if sender_account.balance < amount:
 			messages.error(request, 'Insufficient balance.')
@@ -156,13 +175,13 @@ def initiate_transaction(request):
 			receiver_ifsc=beneficiary_ifsc,
 			amount=amount
 		)
-		return redirect('transaction_success')
+		return redirect('transaction_success', bank_reference_no=transaction.bank_reference_no)
 	else:
 		# Get the accounts of the logged-in user for the dropdown menu
 		sender_accounts = Account.objects.filter(user=request.user)
 		return render(request, 'initiate_transaction.html', {'sender_accounts': sender_accounts})
 		
 @login_required
-def transaction_success(request):
-	transaction = Transaction.objects.all()
+def transaction_success(request, bank_reference_no=None):
+	transaction = get_object_or_404(Transaction, bank_reference_no=bank_reference_no)
 	return render(request, 'transaction_success.html', {'transaction': transaction})
