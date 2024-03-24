@@ -24,7 +24,9 @@ def register(request):
 		email = request.POST['email']
 		password = request.POST['password']
 		password1 = request.POST['password1']
-		branch_id = request.POST.get('branch')  # Get the selected branch ID from the form
+		# nominee_name = request.POST['nominee_name']
+		# relationship_with_nominee = request.POST['relationship_with_nominee']
+		branch_id = request.POST.get('branch')
 		branch = Branch.objects.get(id=branch_id)
 
 		if password == password1:
@@ -51,7 +53,9 @@ def register(request):
 					street=street,
 					city=city,
 					pincode=pincode,
-					mobilenumber=mobilenumber
+					mobilenumber=mobilenumber,
+					# nominee_name = nominee_name,
+					# relationship_with_nominee=relationship_with_nominee,
 				)
 
 				account = Account.objects.create(
@@ -90,18 +94,17 @@ def useraccounts(request):
 	branches = Branch.objects.all()
 	return render(request, 'useraccounts.html', {'accounts': accounts, 'branches': branches})
 
-
 @login_required
 def createaccount(request):
-    if request.method == 'POST':
-        user = request.user
-        branch_id = request.POST.get('branch')  # Get the selected branch ID from the form
-        branch = Branch.objects.get(id=branch_id)
-        account = Account.objects.create(
-            user=user,
-            branch_name=branch,
-        )
-        return redirect('useraccounts')  # Redirect to the user accounts page after account creation
-    else:
-        branches = Branch.objects.all()
-        return render(request, 'createaccount.html', {'branches': branches})
+	if request.method == 'POST':
+		user = request.user
+		branch_id = request.POST.get('branch')  # Get the selected branch ID from the form
+		branch = Branch.objects.get(id=branch_id)
+		account = Account.objects.create(
+			user=user,
+			branch_name=branch,
+		)
+		return redirect('useraccounts')  # Redirect to the user accounts page after account creation
+	else:
+		branches = Branch.objects.all()
+		return render(request, 'createaccount.html', {'branches': branches})

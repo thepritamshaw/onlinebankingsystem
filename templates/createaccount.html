@@ -1,23 +1,36 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 <head>
-	<meta charset="UTF-8">
-	<title>Create New Account</title>
+	{% block title %}
+	<title>Create a New Account- NeoWave Bank</title>
+	{% endblock %}
+
+	{% block stylecontent %}
+		<style>
+			
+		</style>
+	{% endblock %}
 </head>
 <body>
-	<h1>Create New Account</h1>
-	<form method="post">
-		{% csrf_token %}
-		<label for="branch">Select Branch:</label>
-		<select name="branch" id="branch">
-			{% for branch in branches %}
-				<option value="{{ branch.id }}">{{ branch.branch_name }} ({{ branch.ifsc }})</option>
-			{% endfor %}
-		</select>
-		<br>
-		<button type="submit">Create Account</button>
-	</form>
-	<a href="{% url 'useraccounts' %}">Back to User Accounts</a>
+	{% block bodycontent %}
+	<section>
+		<div class="container">
+			<div class="content">
+				<h1>Create New Account</h1>
+				<form method="post">
+					{% csrf_token %}
+					<label for="branch">Select Branch:</label>
+					<select name="branch" id="branch">
+						{% for branch in branches %}
+							<option value="{{ branch.id }}">{{ branch.branch_name }} ({{ branch.ifsc }})</option>
+						{% endfor %}
+					</select>
+					<br><br>
+					<button type="submit">Create Account</button>
+				</form>
+				<a href="{% url 'useraccounts' %}">Back to User Accounts</a>
+			</div>
+		</div>
+	</section>
+	{% endblock%}
 </body>
-</html>
+</body>

@@ -1,45 +1,70 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>User Accounts</title>
+	{% block title %}
+	<title>User Accounts- NeoWave Bank</title>
+	{% endblock %}
+
+	{% block stylecontent %}
+		<style>
+			table {
+						border-collapse: collapse;
+						width: 100%;
+				}
+
+				th, td {
+						padding: 5px; /* Adjust the padding value as needed */
+						text-align: left;
+						border-bottom: 1px solid #ddd;
+				}
+
+				th {
+						background-color: #f2f2f2;
+				}
+		</style>
+	{% endblock %}
 </head>
 <body>
-	<h1>User Accounts</h1>
+	{% block bodycontent %}
+	<section>
+		<div class="container">
+			<div class="content">
+				<h1>User Accounts</h1>
 
-	<h2>User: {{ user.username }}</h2>
+				<h3>User: {{ user.username }}</h3>
 
-	{% if accounts %}
-		<table border="1">
-			<thead>
-				<tr>
-					<th>Account Number</th>
-					<th>Branch Name</th>
-					<th>IFSC</th>
-					<th>Balance</th>
-					<th>Opened Date</th>
-					<th>Is Active</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for account in accounts %}
-					<tr>
-						<td>{{ account.account_number }}</td>
-						<td>{{ account.branch_name }}</td>
-						<td>{{ account.ifsc }}</td>
-						<td>{{ account.balance }}</td>
-						<td>{{ account.opened_date }}</td>
-						<td>{{ account.is_active }}</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	{% else %}
-		<p>No accounts found.</p>
-	{% endif %}
-
-	<a href="createaccount"><button>Create New Account</button></a>
+				{% if accounts %}
+					<table border="2">
+						<thead>
+							<tr>
+								<th>Account Number</th>
+								<th>Branch Name</th>
+								<th>IFSC</th>
+								<th>Balance</th>
+								<th>Opened Date</th>
+								<th>Is Active</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for account in accounts %}
+								<tr>
+									<td>{{ account.account_number }}</td>
+									<td>{{ account.branch_name }}</td>
+									<td>{{ account.ifsc }}</td>
+									<td>{{ account.balance }}</td>
+									<td>{{ account.opened_date }}</td>
+									<td>{{ account.is_active }}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				{% else %}
+					<p>No accounts found.</p>
+				{% endif %}
+				<br><br>
+				<a href="createaccount"><button>Create New Account</button></a>
+			</div>
+		</div>
+	</section>
+	{% endblock%}
 </body>
 </html>

@@ -1,21 +1,43 @@
-<h1>Login Now</h1>
+{% extends 'base.html' %}
+<head>
+	{% block title %}
+	<title>Log in to your Account- NeoWave Bank</title>
+	{% endblock %}
 
-<style>
-	h3 {
-		color: red;
-	}
-</style>
+	{% block stylecontent %}
+		<style>
+			
+		</style>
+	{% endblock %}
+</head>
+<body>
+	{% block bodycontent %}
+	<section>
+		<div class="container">
+			<div class="content">
+				<h1>Login Now</h1>
 
-{% for message in messages %}
-<h3>{{message}}</h3>
-{% endfor %}
-<form action="login" method="POST">
-	{% csrf_token %}
-	<p>Username</p>
-	<input type="text" name="username"/>
-	<p>Password</p>
-	<input type="password" name="password" /><br>
-	<input type="submit" />
-</form>
-<br>
-<a href="register">Create New Account</a>
+				<style>
+					h3 {
+						color: red;
+					}
+				</style>
+
+				{% for message in messages %}
+				<h3>{{message}}</h3>
+				{% endfor %}
+				<form action="login" method="POST">
+					{% csrf_token %}
+					<p>Username</p>
+					<input type="text" name="username"/>
+					<p>Password</p>
+					<input type="password" name="password" /><br><br>
+					<input type="submit" />
+				</form>
+				<br>
+				<a href="register">Create New Account</a>
+			</div>
+		</div>
+	</section>
+	{% endblock%}
+</body>
