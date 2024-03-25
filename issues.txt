@@ -2,7 +2,7 @@
 - Same with changing the firstname etc, the account_holder_name is not changing
 - In transaction_success page, if I enter any bank_reference_id, i could see even others' transactions
 - incorporate is_active instead of deleting accounts
-
+- Remove redundancies from models
 
 Minor issues
 - More refined CSS

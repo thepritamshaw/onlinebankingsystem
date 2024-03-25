@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 <head>
 	{% block title %}
-	<title>User Accounts- NeoWave Bank</title>
+	<title>Transaction History- NeoWave Bank</title>
 	{% endblock %}
 
 	{% block stylecontent %}
@@ -37,22 +37,54 @@
 		<div class="container">
 			<div class="content">
 				<h1>Transaction History</h1>
-
+				<form method="GET" action="{% url 'transaction_history' %}">
+					<label for="account_select">Select Account:</label>
+					<select name="account_select" id="account_select">
+						{% for account in accounts %}
+							<option value="{{ account.account_number }}" {% if account == selected_account %}selected{% endif %}>{{ account.account_number }}</option>
+						{% endfor %}
+					</select>
+					<button type="submit">Show History</button>
+				</form>
 				<table>
 					<thead>
 						<tr>
-							<th>Transaction ID</th>
+							<th>Timestamp</th>
+							<th>Account No</th>
+							<th>Name</th>
+							<th>Bank Reference No</th>
 							<th>Amount</th>
-							<th>From / To</th>
+							<th>Balance</th>
 						</tr>
 					</thead>
 					<tbody>
-						{% for transaction in transactions %}
-							<tr>
-								<td>{{ transaction.bank_reference_no }}</td>
-								<td  class="{% if transaction.receiver_account_number.user == request.user %}received{% else %}sent{% endif %}">{{ transaction.amount }}</td>
-								<td>{% if transaction.receiver_account_number.user == request.user %}From: {{ transaction.sender_account }}{% else %}To: {{ transaction.receiver_account_number }}{% endif %}</td>
-							</tr>
+						{% for data in transaction_data %}
+						<tr>
+							<td>{{ data.transaction.timestamp }}</td>
+							<td>
+								{% if data.transaction.sender_account.user == request.user %}
+									To: {{ data.transaction.receiver_account_number }}
+								{% else %}
+									From: {{ data.transaction.sender_account.account_number }}
+								{% endif %}
+							</td>
+							<td>
+								{% if data.transaction.sender_account.user == request.user %}
+									{{ data.transaction.beneficiary_name }}
+								{% else %}
+									{{ data.transaction.sender_name }}
+								{% endif %}
+							</td>
+							<td>{{ data.transaction.bank_reference_no }}</td>
+							<td class="{% if data.transaction.sender_account.user == request.user %}sent{% else %}received{% endif %}">
+								{% if data.transaction.sender_account.user == request.user %}
+									-₹ {{ data.transaction.amount }}
+								{% else %}
+									+₹ {{ data.transaction.amount }}
+								{% endif %}
+							</td>
+							<td>{{ data.balance }}</td>
+						</tr>
 						{% endfor %}
 					</tbody>
 				</table>

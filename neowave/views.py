@@ -190,15 +190,30 @@ def transaction_success(request, bank_reference_no=None):
 	sender_account_number = transaction.sender_account.account_number
 	return render(request, 'transaction_success.html', {'transaction': transaction, 'sender_account_number': sender_account_number})
 
+
 @login_required
 def transaction_history(request):
-	user = request.user
-	accounts = Account.objects.filter(user=user)
+    user = request.user
+    accounts = Account.objects.filter(user=user)
 
-	if accounts.exists():
-		transactions = Transaction.objects.filter(sender_account__in=accounts) | Transaction.objects.filter(receiver_account_number__in=[account.account_number for account in accounts])
-		return render(request, 'transaction_history.html', {'transactions': transactions})
-	else:
-		# Handle the case where the user does not have any associated account
-		# For example, redirect to a page to create an account
-		return redirect('create_account_page')
+    selected_account_number = request.GET.get('account_select')
+    selected_account = accounts.filter(account_number=selected_account_number).first() if selected_account_number else None
+
+    if selected_account:
+        transactions = Transaction.objects.filter(sender_account=selected_account) | Transaction.objects.filter(receiver_account_number=selected_account.account_number)
+    else:
+        transactions = Transaction.objects.none()  # No transactions if no account selected
+
+    # Prepare transaction data with dynamically calculated sender and receiver balances
+    transaction_data = []
+    for transaction in transactions:
+        receiver_account = Account.objects.get(account_number=transaction.receiver_account_number)
+        if transaction.sender_account.user == user:
+            balance = transaction.sender_account.balance
+        else:
+            balance = receiver_account.balance
+        transaction_data.append({'transaction': transaction, 'balance': balance})
+
+    return render(request, 'transaction_history.html', {'transaction_data': transaction_data, 'selected_account': selected_account, 'accounts': accounts})
+
+
