@@ -37,19 +37,18 @@
 		<div class="container">
 			<div class="content">
 				<h1>Transaction History</h1>
-				<form method="GET" action="{% url 'transaction_history' %}">
+				<form id="account_form" method="GET" action="{% url 'transaction_history' %}">
 					<label for="account_select">Select Account:</label>
-					<select name="account_select" id="account_select">
+					<select name="account_select" id="account_select" onchange="selectAccount()">
 						{% for account in accounts %}
 							<option value="{{ account.account_number }}" {% if account == selected_account %}selected{% endif %}>{{ account.account_number }}</option>
 						{% endfor %}
 					</select>
-					<button type="submit">Show History</button>
-				</form>
+				</form><br>
 				<table>
 					<thead>
 						<tr>
-							<th>Timestamp</th>
+							<th>Date & Time</th>
 							<th>Account No</th>
 							<th>Name</th>
 							<th>Bank Reference No</th>
@@ -58,7 +57,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{% for data in transaction_data %}
+						{% for data in transaction_data reversed %}
 						<tr>
 							<td>{{ data.transaction.timestamp }}</td>
 							<td>
@@ -91,5 +90,11 @@
 			</div>
 		</div>
 	</section>
+	<script>
+		// Function to submit the form when an account is selected
+		function selectAccount() {
+			document.getElementById("account_form").submit();
+		}
+	</script>
 	{% endblock%}
 </body>

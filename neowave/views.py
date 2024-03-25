@@ -169,7 +169,11 @@ def initiate_transaction(request):
 		beneficiary_account.balance += amount
 		beneficiary_account.save()
 
-		# Create transaction record
+		# Calculate sender's and receiver's balances after the transaction
+		sender_balance_after_transaction = sender_account.balance
+		receiver_balance_after_transaction = beneficiary_account.balance
+
+		# Create transaction record with sender and receiver balances
 		transaction = Transaction.objects.create(
 			sender_account=sender_account,
 			receiver_account_number=beneficiary_account_number,
@@ -177,7 +181,10 @@ def initiate_transaction(request):
 			amount=amount,
 			beneficiary_name=beneficiary_name,
 			sender_name=sender_name,
+			sender_balance_after_transaction=sender_balance_after_transaction,
+			receiver_balance_after_transaction=receiver_balance_after_transaction
 		)
+
 		return redirect('transaction_success', bank_reference_no=transaction.bank_reference_no)
 	else:
 		# Get the accounts of the logged-in user for the dropdown menu
@@ -193,27 +200,28 @@ def transaction_success(request, bank_reference_no=None):
 
 @login_required
 def transaction_history(request):
-    user = request.user
-    accounts = Account.objects.filter(user=user)
+	user = request.user
+	accounts = Account.objects.filter(user=user)
 
-    selected_account_number = request.GET.get('account_select')
-    selected_account = accounts.filter(account_number=selected_account_number).first() if selected_account_number else None
+	selected_account_number = request.GET.get('account_select')
+	selected_account = accounts.filter(account_number=selected_account_number).first() if selected_account_number else None
 
-    if selected_account:
-        transactions = Transaction.objects.filter(sender_account=selected_account) | Transaction.objects.filter(receiver_account_number=selected_account.account_number)
-    else:
-        transactions = Transaction.objects.none()  # No transactions if no account selected
+	if selected_account:
+		transactions = Transaction.objects.filter(sender_account=selected_account) | Transaction.objects.filter(receiver_account_number=selected_account.account_number)
+	else:
+		transactions = Transaction.objects.none()  # No transactions if no account selected
 
-    # Prepare transaction data with dynamically calculated sender and receiver balances
-    transaction_data = []
-    for transaction in transactions:
-        receiver_account = Account.objects.get(account_number=transaction.receiver_account_number)
-        if transaction.sender_account.user == user:
-            balance = transaction.sender_account.balance
-        else:
-            balance = receiver_account.balance
-        transaction_data.append({'transaction': transaction, 'balance': balance})
+	# Prepare transaction data with dynamically calculated balances
+	transaction_data = []
 
-    return render(request, 'transaction_history.html', {'transaction_data': transaction_data, 'selected_account': selected_account, 'accounts': accounts})
+	for transaction in transactions:
+		if transaction.sender_account.user == user:
+			# If the user is the sender, the balance after the transaction is sender_balance_after_transaction
+			balance = transaction.sender_balance_after_transaction
+		else:
+			# If the user is the receiver, the balance after the transaction is receiver_balance_after_transaction
+			balance = transaction.receiver_balance_after_transaction
+		
+		transaction_data.append({'transaction': transaction, 'balance': balance})
 
-
+	return render(request, 'transaction_history.html', {'transaction_data': transaction_data, 'selected_account': selected_account, 'accounts': accounts})

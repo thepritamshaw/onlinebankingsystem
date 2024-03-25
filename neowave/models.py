@@ -64,6 +64,8 @@ class Transaction(models.Model):
 	sender_name = models.CharField(max_length=255, default='')
 	beneficiary_name = models.CharField(max_length=255, default='')
 	bank_reference_no = models.CharField(max_length=10, unique=True, blank=True, null=True)
+	sender_balance_after_transaction = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+	receiver_balance_after_transaction = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 	timestamp = models.DateTimeField(auto_now_add=True)
 
 	def save(self, *args, **kwargs):
