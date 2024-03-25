@@ -112,16 +112,16 @@ def createaccount(request):
 		return render(request, 'createaccount.html', {'branches': branches})
 
 def get_beneficiary_name(request):
-    if request.method == 'GET':
-        account_number = request.GET.get('account_number')
-        ifsc = request.GET.get('ifsc')
-        
-        try:
-            beneficiary_account = Account.objects.get(account_number=account_number, ifsc=ifsc)
-            beneficiary_name = beneficiary_account.account_holder_name
-            return JsonResponse({'beneficiary_name': beneficiary_name})
-        except Account.DoesNotExist:
-            return JsonResponse({'error': 'Beneficiary account not found'}, status=404)
+	if request.method == 'GET':
+		account_number = request.GET.get('account_number')
+		ifsc = request.GET.get('ifsc')
+		
+		try:
+			beneficiary_account = Account.objects.get(account_number=account_number, ifsc=ifsc)
+			beneficiary_name = beneficiary_account.account_holder_name
+			return JsonResponse({'beneficiary_name': beneficiary_name})
+		except Account.DoesNotExist:
+			return JsonResponse({'error': 'Beneficiary account not found'}, status=404)
 
 @login_required
 def initiate_transaction(request):
@@ -189,3 +189,16 @@ def transaction_success(request, bank_reference_no=None):
 	transaction = get_object_or_404(Transaction, bank_reference_no=bank_reference_no)
 	sender_account_number = transaction.sender_account.account_number
 	return render(request, 'transaction_success.html', {'transaction': transaction, 'sender_account_number': sender_account_number})
+
+@login_required
+def transaction_history(request):
+	user = request.user
+	accounts = Account.objects.filter(user=user)
+
+	if accounts.exists():
+		transactions = Transaction.objects.filter(sender_account__in=accounts) | Transaction.objects.filter(receiver_account_number__in=[account.account_number for account in accounts])
+		return render(request, 'transaction_history.html', {'transactions': transactions})
+	else:
+		# Handle the case where the user does not have any associated account
+		# For example, redirect to a page to create an account
+		return redirect('create_account_page')

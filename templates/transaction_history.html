@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+<head>
+	{% block title %}
+	<title>User Accounts- NeoWave Bank</title>
+	{% endblock %}
+
+	{% block stylecontent %}
+		<style>
+			table {
+						border-collapse: collapse;
+						width: 100%;
+				}
+
+			th, td {
+				padding: 5px; /* Adjust the padding value as needed */
+				text-align: left;
+				border-bottom: 1px solid #ddd;
+			}
+
+			th {
+				background-color: #f2f2f2;
+			}
+			.received {
+				color: lightgreen;
+			}
+
+			/* Define styles for outgoing (sent) transactions */
+			.sent {
+				color: lightcoral;
+			}
+		</style>
+	{% endblock %}
+</head>
+<body>
+	{% block bodycontent %}
+	<section>
+		<div class="container">
+			<div class="content">
+				<h1>Transaction History</h1>
+
+				<table>
+					<thead>
+						<tr>
+							<th>Transaction ID</th>
+							<th>Amount</th>
+							<th>From / To</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for transaction in transactions %}
+							<tr>
+								<td>{{ transaction.bank_reference_no }}</td>
+								<td  class="{% if transaction.receiver_account_number.user == request.user %}received{% else %}sent{% endif %}">{{ transaction.amount }}</td>
+								<td>{% if transaction.receiver_account_number.user == request.user %}From: {{ transaction.sender_account }}{% else %}To: {{ transaction.receiver_account_number }}{% endif %}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section>
+	{% endblock%}
+</body>

@@ -11,4 +11,5 @@ urlpatterns = [
 	path('initiate_transaction', views.initiate_transaction, name='initiate_transaction'),
 	path('transaction_success/<str:bank_reference_no>/', views.transaction_success, name='transaction_success'),
 	path('get_beneficiary_name/', views.get_beneficiary_name, name='get_beneficiary_name'),
+	path('transaction_history', views.transaction_history, name= 'transaction_history'),
 ]
