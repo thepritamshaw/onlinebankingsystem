@@ -61,6 +61,8 @@ class Transaction(models.Model):
 	receiver_account_number = models.CharField(max_length=12)
 	receiver_ifsc = models.CharField(max_length=11)
 	amount = models.DecimalField(max_digits=10, decimal_places=2)
+	sender_name = models.CharField(max_length=255, default='')
+	beneficiary_name = models.CharField(max_length=255, default='')
 	bank_reference_no = models.CharField(max_length=10, unique=True, blank=True, null=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
 

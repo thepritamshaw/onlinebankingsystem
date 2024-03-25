@@ -6,6 +6,10 @@
 
 	{% block stylecontent %}
 		<style>
+			.input {
+				margin-top: 1rem;
+				margin-bottom: 0;
+			}
 			h5 {
 			color: red;
 			}
@@ -24,21 +28,21 @@
 				{% endfor %}
 				<form method="post">
 					{% csrf_token %}
-					<p>Select Sender Account:</p>
+					<p class="input">Select Sender Account:</p>
 					<select name="sender_account">
 						{% for account in sender_accounts %}
 							<option value="{{ account.id }}">{{ account.account_number }}</option>
 						{% endfor %}
 					</select>
-					<p>Beneficiary Account Number:</p>
+					<p class="input">Beneficiary Account Number:</p>
 					<input type="text" name="beneficiary_account_number" required>
-					<p>Beneficiary IFSC Code:</p>
+					<p class="input">Beneficiary IFSC Code:</p>
 					<input type="text" name="beneficiary_ifsc" required>
-					<p>Beneficiary Name:</p>
+					<p class="input">Beneficiary Name:</p>
 					<input type="text" id="beneficiary_name" readonly>
-					<p>Amount</p>
+					<p class="input">Amount</p>
 					<input type="number" name="amount" step="0.01" min="0.01" required>
-					<p>Password:</p>
+					<p class="input">Password:</p>
 					<input type="password" name="password" required>
 					<br><br>
 					<button type="submit">Initiate Transaction</button>

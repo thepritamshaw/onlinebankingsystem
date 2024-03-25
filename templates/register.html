@@ -6,7 +6,10 @@
 
 	{% block stylecontent %}
 		<style>
-			
+			.input {
+				margin-top: 1rem;
+				margin-bottom: 0;
+			}
 		</style>
 	{% endblock %}
 </head>
@@ -30,37 +33,37 @@
 				<form method="POST" action="register">
 					{% csrf_token %}
 
-					<p>First Name</p>
+					<p class="input">First Name</p>
 					<input type="text" name="firstname" />
-					<p>Last Name</p>
+					<p class="input">Last Name</p>
 					<input type="text" name="lastname" />
-					<p>Father's Name</p>
+					<p class="input">Father's Name</p>
 					<input type="text" name="fathername" />
-					<p>Mother's Name</p>
+					<p class="input">Mother's Name</p>
 					<input type="text" name="mothername" />
-					<p>Address</p>
-					<p>Street</p>
+					<p class="input">Address</p>
+					<p class="input">Street</p>
 					<input type="text" name="street" />
-					<p>City</p>
+					<p class="input">City</p>
 					<input type="text" name="city" />
-					<p>Pincode</p>
+					<p class="input">Pincode</p>
 					<input name="pincode" type="text" inputmode="numeric" pattern="[0-9]{6}">
-					<p>Mobile Number</p>
+					<p class="input">Mobile Number</p>
 					<input name="mobilenumber" type="text" inputmode="numeric" pattern="[0-9]{10}">
-					<p>Choose Branch</p>
+					<p class="input">Choose Branch</p>
 					<select name="branch">
 						{% for branch in branches %}
 							<option value="{{ branch.pk }}">{{ branch.branch_name }} ({{ branch.pincode}})</option>
 						{% endfor %}
 					</select>
 					
-					<p>Create Username</p>
+					<p class="input">Create Username</p>
 					<input type="text" name="username" />
-					<p>Email</p>
+					<p class="input">Email</p>
 					<input type="email" name="email" />
-					<p>Enter Password</p>
+					<p class="input">Enter Password</p>
 					<input type="password" name="password" />
-					<p>Retype your Password</p>
+					<p class="input">Retype your Password</p>
 					<input type="password" name="password1" /><br><br>
 					<input type="submit" />
 

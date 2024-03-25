@@ -18,13 +18,19 @@
 	<section>
 		<div class="container">
 			<div class="content">
-				<p></p>
 				<h1><span class="amount_rs">₹ {{ transaction.amount }}</span></h1>
 				<h3>Transaction Successful</h3>
-				<p>Your transaction has been successfully completed.</p><br>
-				<p>Paid at {{ transaction.timestamp }}</p>
-				<p>Bank Reference Number: {{ transaction.bank_reference_no }}</p>
-				<p>Reciever Account Number: {{ transaction.receiver_account_number }}</p>
+				<p>Your transaction has been successfully completed.</p>
+				<br>
+				<p>To</p>
+				<h4>{{ transaction.beneficiary_name }}</h4>
+				<p>NeoWave Bank - {{ transaction.receiver_account_number }}</p>
+				<br>
+				<p>From</p>
+				<h4>{{ transaction.sender_name }}</h4>
+				<p>NeoWave Bank - {{ sender_account_number }}</p>
+				<br>
+				<p>Paid at {{ transaction.timestamp }} <br>Bank Ref No: {{ transaction.bank_reference_no }}</p>
 				<a href="{% url 'useraccounts' %}">Back to User Accounts</a>
 			</div>
 		</div>

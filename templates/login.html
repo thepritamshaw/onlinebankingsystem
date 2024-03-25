@@ -6,7 +6,10 @@
 
 	{% block stylecontent %}
 		<style>
-			
+			.input {
+				margin-top: 1rem;
+				margin-bottom: 0;
+			}
 		</style>
 	{% endblock %}
 </head>
@@ -28,9 +31,9 @@
 				{% endfor %}
 				<form action="login" method="POST">
 					{% csrf_token %}
-					<p>Username</p>
+					<p class="input">Username</p>
 					<input type="text" name="username"/>
-					<p>Password</p>
+					<p class="input">Password</p>
 					<input type="password" name="password" /><br><br>
 					<input type="submit" />
 				</form>

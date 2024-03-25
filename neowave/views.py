@@ -156,6 +156,7 @@ def initiate_transaction(request):
 			return redirect('initiate_transaction')
 
 		beneficiary_name = beneficiary_account.account_holder_name
+		sender_name = sender_account.account_holder_name
 
 		# Check if sender has enough balance
 		if sender_account.balance < amount:
@@ -173,7 +174,9 @@ def initiate_transaction(request):
 			sender_account=sender_account,
 			receiver_account_number=beneficiary_account_number,
 			receiver_ifsc=beneficiary_ifsc,
-			amount=amount
+			amount=amount,
+			beneficiary_name=beneficiary_name,
+			sender_name=sender_name,
 		)
 		return redirect('transaction_success', bank_reference_no=transaction.bank_reference_no)
 	else:
@@ -184,4 +187,5 @@ def initiate_transaction(request):
 @login_required
 def transaction_success(request, bank_reference_no=None):
 	transaction = get_object_or_404(Transaction, bank_reference_no=bank_reference_no)
-	return render(request, 'transaction_success.html', {'transaction': transaction})
+	sender_account_number = transaction.sender_account.account_number
+	return render(request, 'transaction_success.html', {'transaction': transaction, 'sender_account_number': sender_account_number})
