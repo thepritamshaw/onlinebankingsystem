@@ -6,6 +6,7 @@ from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from .models import Profile, Branch, Account, Transaction
 from decimal import Decimal
+from num2words import num2words
 
 # Create your views here.
 def index(request):
@@ -86,6 +87,7 @@ def login(request):
 			return redirect ('login')
 	return render(request, 'login.html')
 
+@login_required
 def logout(request):
 	auth.logout(request)
 	return redirect('/')
@@ -115,7 +117,7 @@ def get_beneficiary_name(request):
 	if request.method == 'GET':
 		account_number = request.GET.get('account_number')
 		ifsc = request.GET.get('ifsc')
-		
+
 		try:
 			beneficiary_account = Account.objects.get(account_number=account_number, ifsc=ifsc)
 			beneficiary_name = beneficiary_account.account_holder_name
@@ -190,12 +192,20 @@ def initiate_transaction(request):
 		# Get the accounts of the logged-in user for the dropdown menu
 		sender_accounts = Account.objects.filter(user=request.user)
 		return render(request, 'initiate_transaction.html', {'sender_accounts': sender_accounts})
-		
+
 @login_required
 def transaction_success(request, bank_reference_no=None):
 	transaction = get_object_or_404(Transaction, bank_reference_no=bank_reference_no)
 	sender_account_number = transaction.sender_account.account_number
-	return render(request, 'transaction_success.html', {'transaction': transaction, 'sender_account_number': sender_account_number})
+
+	amount_in_words = num2words(transaction.amount, lang='en_IN').capitalize()
+	
+	context = {
+		'transaction': transaction,
+		'sender_account_number': sender_account_number,
+		'amount_in_words': amount_in_words,
+	}
+	return render(request, 'transaction_success.html', context)
 
 
 @login_required
