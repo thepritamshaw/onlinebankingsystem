@@ -18,6 +18,7 @@
 	<section>
 		<div class="container">
 			<div class="content">
+				<form action="login" method="POST">
 				<h1>Login Now</h1>
 
 				<style>
@@ -29,13 +30,12 @@
 				{% for message in messages %}
 				<h3>{{message}}</h3>
 				{% endfor %}
-				<form action="login" method="POST">
 					{% csrf_token %}
 					<p class="input">Username</p>
 					<input type="text" name="username"/>
 					<p class="input">Password</p>
 					<input type="password" name="password" /><br><br>
-					<input type="submit" />
+					<input type="submit" class="button" />
 				</form>
 				<br>
 				<a href="register">Create New Account</a>

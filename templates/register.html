@@ -18,6 +18,7 @@
 	<section>
 		<div class="container">
 			<div class="content">
+				<form method="POST" action="register">
 				<h1>Open your Online Savings Account</h1>
 
 				<style>
@@ -30,7 +31,6 @@
 				<h5>{{message}}</h5>
 				{% endfor %}
 
-				<form method="POST" action="register">
 					{% csrf_token %}
 
 					<p class="input">First Name</p>
@@ -65,7 +65,7 @@
 					<input type="password" name="password" />
 					<p class="input">Retype your Password</p>
 					<input type="password" name="password1" /><br><br>
-					<input type="submit" />
+					<input type="submit" class="button" />
 
 				</form>
 			</div>
