@@ -1,6 +1,117 @@
-body {
-  font-family: "Open Sans", sans-serif;
-  color: #444444;
+* {
+  margin: 0 1%;
+  padding: 0;
+  text-decoration: none;
+  list-style: none;
+  font-weight: 500;
+  letter-spacing: .5px;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Raleway", sans-serif;
+}
+
+#header .logo {
+  font-size: 28px;
+  line-height: 1;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  font-family: "Poppins", sans-serif;
+}
+
+nav {
+	display: flex;
+	padding: 25px 20px 0 0%;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.titlecontainer {
+	display: flex;
+	width: 545px;
+}
+
+.nav-and-sign {
+	display: flex;
+	align-items: center;
+	background-color: #fff;
+	color: #fff;
+}
+
+.nav-menu {
+	display: inline-flex;
+	background-color: #fff;
+}
+
+.nav-menu-item {
+	padding: 12px 15px;
+}
+
+.nav-menu-item a, .dropdown {
+	color: #183b56;
+	position: relative;
+}
+
+.nav-menu-item a:hover, .dropdown:hover {
+	color: #2294ed;
+}
+
+.dropdown-menu {
+	display: none;
+	position: absolute;
+	margin-top: 13px;
+	width: 180px;
+}
+
+.dropdown-menu li {
+	padding: 13px 20px;
+	background-color: #fff;
+}
+
+.dropdown:hover .dropdown-menu {
+	display: block;
+}
+
+
+.sign {
+	/* padding-right: 5vw; */
+  margin-left: 25px;
+	display: flex;
+	align-items: center;
+	background-color: #fff;
+}
+
+.white-button-blue-text {
+	padding: 12px 24px;
+	color: #183b56;
+	border: 1px solid #b9cde4;
+	border-radius: 4px;
+	margin: 0 10px;
+	font-weight: 700;
+}
+
+.signin {
+	background-color: #fff;
+}
+
+.white-button-blue-text:hover {
+	border: 1px solid #2294ed;
+	color: #2294ed;
+}
+
+.blue-button-white-text {
+	background-color: #2294ed;
+	border: 1px solid #2294ed;
+	border-radius: 4px;
+	padding: 12px 24px;
+	font-weight: 700;
+	color: #fff;
+}
+
+.blue-button-white-text:hover {
+	background-color: #0061ad;
+	border: 1px solid #0061ad;
 }
 
 a {
@@ -10,66 +121,107 @@ a {
 
 a:hover {
   color: #469fdf;
-  text-decoration: none;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Raleway", sans-serif;
+@media (max-width : 1100px) {
+	nav {
+		display: flex;
+	}
+
+	.titlecontainer {
+		justify-content: space-between;
+		width: 100%;
+	}
+
+	.nav-and-sign, .nav-menu, .sign {
+		display: grid;
+		position: absolute;
+		width: 100%;
+		top: 54px;
+		left: 0;
+		transform: translateY(-100%);
+		z-index: -1;
+		align-items: left;
+	}
+
+	.navbartoggler {
+		display: inline-grid !important;
+		margin: 5px 0 5px 0;
+	}
+
+	.bar {
+		width: 23px;
+		height: 3px;
+		margin-bottom: 2px;
+		background: #183b56;
+		border-radius: 20%;
+		transition: .4s;
+	}
+
+	.bar:nth-child(1), .bar:nth-child(2) {
+		margin-bottom: 1px;
+	}
+
+	.become-a-tester {
+		display: none;
+	}
+
+	.nav-menu-item, .signin {
+		margin: 0 25px;
+	}
+
+
+	.signin {
+		margin-top: 10px;
+	}
+	
+	.dropdown-menu {
+		margin-top: -40px;
+	}
 }
 
-/*--------------------------------------------------------------
-# Header
---------------------------------------------------------------*/
-#header {
-  transition: all 0.5s;
-  background: #fff;
-  z-index: 997;
-  padding: 15px 0;
-  border-bottom: 1px solid #e6f2fb;
+#toggle {
+	display: none;
 }
 
-#header.header-scrolled {
-  border-color: #fff;
-  box-shadow: 0px 2px 15px rgba(18, 66, 101, 0.08);
+input:checked~nav ul {
+	transform: translateY(0);
+	z-index: 2;
+	top: 78px;
 }
 
-#header .logo {
-  font-size: 28px;
+input:checked~nav .nav-and-sign {
+	transform: translateY(0);
+	z-index: 0;
+}
+
+input:checked~nav .sign {
+	transform: translateY(0);
+	z-index: 0;
+	top: 250px;
+	grid-gap: 10px;
+}
+
+input:checked~nav .titlecontainer .navbartoggler {
+	margin-top: 12px;
+}
+
+input:checked~nav .titlecontainer .navbartoggler .bar:nth-child(1) {
+	transform: rotate(45deg);
+}
+
+input:checked~nav .titlecontainer .navbartoggler .bar:nth-child(2) {
+	display: none;
+}
+
+input:checked~nav .titlecontainer .navbartoggler .bar:nth-child(3) {
+  position: absolute;
+	transform: rotate(-45deg);
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  color: #444;
   margin: 0;
   padding: 0;
-  line-height: 1;
-  font-weight: 300;
-  letter-spacing: 0.5px;
-  font-family: "Poppins", sans-serif;
-}
-
-#header .logo a {
-  color: #16507b;
-}
-
-#header .logo img {
-  max-height: 40px;
-}
-
-@media (max-width: 992px) {
-  #header .logo {
-    font-size: 28px;
-  }
-}
-
-/*--------------------------------------------------------------
-# Section
---------------------------------------------------------------*/
-.container {
-  display: flex;
-  justify-content: center;
-}
-
-.content {
-  max-width: 80%; /* Adjust this value as needed */
 }
