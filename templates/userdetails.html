@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+<head>
+	{% block title %}
+	<title>Edit your Profile- NeoWave Bank</title>
+	{% endblock %}
+
+	{% block stylecontent %}
+		<style>
+			.input {
+				margin-top: 1rem;
+				margin-bottom: 0;
+			}
+		</style>
+	{% endblock %}
+</head>
+<body>
+	{% block bodycontent %}
+	<section>
+		<div class="container">
+			<div class="content">
+				<form id="user-details-form" method="post">
+					<h1>User Details</h1><br>
+					{% csrf_token %}
+					<p class="input">First Name:</p>
+					<input type="text" id="id_firstname" name="firstname" value="{{ profile.firstname }}" required><br>
+					<p class="input">Last Name:</p>
+					<input type="text" id="id_lastname" name="lastname" value="{{ profile.lastname }}" required><br>
+					<p class="input">Father's Name:</p>
+					<input type="text" id="id_fathername" name="fathername" value="{{ profile.fathername }}" required><br>
+					<p class="input">Mother's Name:</p>
+					<input type="text" id="id_mothername" name="mothername" value="{{ profile.mothername }}" required><br>
+					<p class="input">Street:</p>
+					<input type="text" id="id_street" name="street" value="{{ profile.street }}" required><br>
+					<p class="input">City:</p>
+					<input type="text" id="id_city" name="city" value="{{ profile.city }}" required><br>
+					<p class="input">Pincode:</p>
+					<input type="text" id="id_pincode" name="pincode" value="{{ profile.pincode }}" required><br>
+					<p class="input">Mobile Number:</p>
+					<input type="text" id="id_mobilenumber" name="mobilenumber" value="{{ profile.mobilenumber }}" required><br>
+
+					<br>
+					<button type="submit">Save</button>
+				</form>
+			</div>
+		</div>
+	</section>
+	{% endblock%}
+</body>

@@ -235,3 +235,23 @@ def transaction_history(request):
 		transaction_data.append({'transaction': transaction, 'balance': balance})
 
 	return render(request, 'transaction_history.html', {'transaction_data': transaction_data, 'selected_account': selected_account, 'accounts': accounts})
+
+@login_required
+def userdetails(request):
+    profile = request.user.profile
+
+    if request.method == 'POST':
+        # If the form is submitted, update the user details
+        profile.firstname = request.POST['firstname']
+        profile.lastname = request.POST['lastname']
+        profile.fathername = request.POST['fathername']
+        profile.mothername = request.POST['mothername']
+        profile.street = request.POST['street']
+        profile.city = request.POST['city']
+        profile.pincode = request.POST['pincode']
+        profile.mobilenumber = request.POST['mobilenumber']
+        profile.save()
+
+        return redirect('index')
+
+    return render(request, 'userdetails.html', {'profile': profile})
