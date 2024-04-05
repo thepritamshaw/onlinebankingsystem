@@ -102,13 +102,13 @@ def useraccounts(request):
 def createaccount(request):
 	if request.method == 'POST':
 		user = request.user
-		branch_id = request.POST.get('branch')  # Get the selected branch ID from the form
+		branch_id = request.POST.get('branch')
 		branch = Branch.objects.get(id=branch_id)
 		account = Account.objects.create(
 			user=user,
 			branch_name=branch,
 		)
-		return redirect('useraccounts')  # Redirect to the user accounts page after account creation
+		return redirect('useraccounts')
 	else:
 		branches = Branch.objects.all()
 		return render(request, 'createaccount.html', {'branches': branches})
@@ -135,19 +135,16 @@ def initiate_transaction(request):
 		password = request.POST.get('password')
 
 		try:
-			# Retrieve sender's account
 			sender_account = Account.objects.get(id=sender_account_id)
 		except Account.DoesNotExist:
 			messages.error(request, 'Invalid sender account.')
 			return redirect('initiate_transaction')
 
-		# Validate sender's password
 		if not sender_account.user.check_password(password):
 			messages.error(request, 'Incorrect password.')
 			return redirect('initiate_transaction')
 
 		try:
-			# Check if beneficiary account exists
 			beneficiary_account = Account.objects.get(account_number=beneficiary_account_number, ifsc=beneficiary_ifsc)
 		except Account.DoesNotExist:
 			messages.error(request, 'Beneficiary account does not exist.')
@@ -160,22 +157,18 @@ def initiate_transaction(request):
 		beneficiary_name = beneficiary_account.account_holder_name
 		sender_name = sender_account.account_holder_name
 
-		# Check if sender has enough balance
 		if sender_account.balance < amount:
 			messages.error(request, 'Insufficient balance.')
 			return redirect('initiate_transaction')
 
-		# Perform transaction
 		sender_account.balance -= amount
 		sender_account.save()
 		beneficiary_account.balance += amount
 		beneficiary_account.save()
 
-		# Calculate sender's and receiver's balances after the transaction
 		sender_balance_after_transaction = sender_account.balance
 		receiver_balance_after_transaction = beneficiary_account.balance
 
-		# Create transaction record with sender and receiver balances
 		transaction = Transaction.objects.create(
 			sender_account=sender_account,
 			receiver_account_number=beneficiary_account_number,
@@ -210,48 +203,48 @@ def transaction_success(request, bank_reference_no=None):
 
 @login_required
 def transaction_history(request):
-	user = request.user
-	accounts = Account.objects.filter(user=user)
+    user = request.user
+    accounts = Account.objects.filter(user=user)
 
-	selected_account_number = request.GET.get('account_select')
-	selected_account = accounts.filter(account_number=selected_account_number).first() if selected_account_number else None
+    selected_account_number = request.GET.get('account_select')
+    selected_account = accounts.filter(account_number=selected_account_number).first()
 
-	if selected_account:
-		transactions = Transaction.objects.filter(sender_account=selected_account) | Transaction.objects.filter(receiver_account_number=selected_account.account_number)
-	else:
-		transactions = Transaction.objects.none()  # No transactions if no account selected
+    if selected_account:
+        transactions_sent = Transaction.objects.filter(sender_account=selected_account)
+        transactions_received = Transaction.objects.filter(receiver_account_number=selected_account.account_number)
+        transactions = transactions_sent | transactions_received
+    else:
+        transactions = Transaction.objects.none()
 
-	# Prepare transaction data with dynamically calculated balances
-	transaction_data = []
+    # Prepare transaction data with dynamically calculated balances
+    transaction_data = []
 
-	for transaction in transactions:
-		if transaction.sender_account.user == user:
-			# If the user is the sender, the balance after the transaction is sender_balance_after_transaction
-			balance = transaction.sender_balance_after_transaction
-		else:
-			# If the user is the receiver, the balance after the transaction is receiver_balance_after_transaction
-			balance = transaction.receiver_balance_after_transaction
-		
-		transaction_data.append({'transaction': transaction, 'balance': balance})
+    for transaction in transactions:
+        if transaction.sender_account == selected_account:
+            balance = transaction.sender_balance_after_transaction
+        else:
+            balance = transaction.receiver_balance_after_transaction
+        
+        transaction_data.append({'transaction': transaction, 'balance': balance})
 
-	return render(request, 'transaction_history.html', {'transaction_data': transaction_data, 'selected_account': selected_account, 'accounts': accounts})
+    return render(request, 'transaction_history.html', {'transaction_data': transaction_data, 'selected_account': selected_account, 'accounts': accounts})
+
 
 @login_required
 def userdetails(request):
-    profile = request.user.profile
+	profile = request.user.profile
 
-    if request.method == 'POST':
-        # If the form is submitted, update the user details
-        profile.firstname = request.POST['firstname']
-        profile.lastname = request.POST['lastname']
-        profile.fathername = request.POST['fathername']
-        profile.mothername = request.POST['mothername']
-        profile.street = request.POST['street']
-        profile.city = request.POST['city']
-        profile.pincode = request.POST['pincode']
-        profile.mobilenumber = request.POST['mobilenumber']
-        profile.save()
+	if request.method == 'POST':
+		profile.firstname = request.POST['firstname']
+		profile.lastname = request.POST['lastname']
+		profile.fathername = request.POST['fathername']
+		profile.mothername = request.POST['mothername']
+		profile.street = request.POST['street']
+		profile.city = request.POST['city']
+		profile.pincode = request.POST['pincode']
+		profile.mobilenumber = request.POST['mobilenumber']
+		profile.save()
 
-        return redirect('index')
+		return redirect('index')
 
-    return render(request, 'userdetails.html', {'profile': profile})
+	return render(request, 'userdetails.html', {'profile': profile})

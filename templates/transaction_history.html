@@ -61,22 +61,22 @@
 						<tr>
 							<td>{{ data.transaction.timestamp }}</td>
 							<td>
-								{% if data.transaction.sender_account.user == request.user %}
+								{% if data.transaction.sender_account == selected_account %}
 									To: {{ data.transaction.receiver_account_number }}
 								{% else %}
 									From: {{ data.transaction.sender_account.account_number }}
 								{% endif %}
 							</td>
 							<td>
-								{% if data.transaction.sender_account.user == request.user %}
+								{% if data.transaction.sender_account == selected_account %}
 									{{ data.transaction.beneficiary_name }}
 								{% else %}
 									{{ data.transaction.sender_name }}
 								{% endif %}
 							</td>
 							<td>{{ data.transaction.bank_reference_no }}</td>
-							<td class="{% if data.transaction.sender_account.user == request.user %}sent{% else %}received{% endif %}">
-								{% if data.transaction.sender_account.user == request.user %}
+							<td class="{% if data.transaction.sender_account == selected_account %}sent{% else %}received{% endif %}">
+								{% if data.transaction.sender_account == selected_account %}
 									-₹ {{ data.transaction.amount }}
 								{% else %}
 									+₹ {{ data.transaction.amount }}
