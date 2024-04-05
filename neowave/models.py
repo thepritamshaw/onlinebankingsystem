@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 from django.utils import timezone
-	
+
 # Create your models here.
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -53,7 +53,6 @@ class Account(models.Model):
 	def __str__(self):
 		return self.account_number
 
-
 class Transaction(models.Model):
 	sender_account = models.ForeignKey(Account, related_name='sent_transactions', on_delete=models.CASCADE)
 	receiver_account_number = models.CharField(max_length=12)
@@ -80,3 +79,31 @@ class Transaction(models.Model):
 
 	def __str__(self):
 		return self.bank_reference_no
+
+class Cheque(models.Model):
+	CHEQUE_STATUS_CHOICES = [
+		('pending', 'Pending'),
+		('cleared', 'Cleared'),
+		('stopped', 'Stopped'),
+	]
+	user_account = models.ForeignKey(Account, on_delete=models.CASCADE)
+	cheque_number = models.CharField(max_length=20, unique=True)
+	amount = models.DecimalField(max_digits=10, decimal_places=2)
+	recipient = models.CharField(max_length=100)
+	status = models.CharField(max_length=10, choices=CHEQUE_STATUS_CHOICES, default='pending')
+	created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cheques_created')
+	stopped_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='cheques_stopped')
+	created_at = models.DateTimeField(auto_now_add=True)
+
+	def stop_payment(self, user):
+		if self.status == 'pending':
+			self.status = 'stopped'
+			self.stopped_by = user
+			self.save()
+
+	@property
+	def issuer(self):
+		return self.user_account.account_holder_name
+
+	def __str__(self):
+		return self.cheque_number

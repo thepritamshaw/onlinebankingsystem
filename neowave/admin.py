@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Branch, Account, Transaction
+from .models import Profile, Branch, Account, Transaction, Cheque
 
 admin.site.register(Profile)
 admin.site.register(Branch)
@@ -29,3 +29,21 @@ class TransactionAdmin(admin.ModelAdmin):
 	list_display = ['bank_reference_no', 'amount', 'timestamp', 'sender_account', 'receiver_account_number', 'receiver_ifsc']
 
 admin.site.register(Transaction, TransactionAdmin)
+
+class ChequeAdmin(admin.ModelAdmin):
+	list_display = ('cheque_number', 'user_account', 'amount', 'issuer', 'recipient', 'status')
+	search_fields = ('cheque_number', 'user_account__account_number', 'issuer', 'recipient')
+	list_filter = ('status',)
+	readonly_fields = ('created_by', 'stopped_by', 'created_at')
+
+	def save_model(self, request, obj, form, change):
+		if not obj.pk:
+			obj.created_by = request.user
+		super().save_model(request, obj, form, change)
+
+	def get_readonly_fields(self, request, obj=None):
+		if obj and obj.status == 'stopped':
+			return self.readonly_fields + ('cheque_number', 'user_account', 'amount', 'issuer', 'recipient', 'status')
+		return self.readonly_fields
+
+admin.site.register(Cheque, ChequeAdmin)
