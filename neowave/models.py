@@ -19,7 +19,6 @@ class Profile(models.Model):
 	def __str__(self):
 		return self.user.username
 
-
 class Branch(models.Model):
 	branch_name = models.CharField(max_length=100)
 	address = models.CharField(max_length=255)
@@ -27,7 +26,6 @@ class Branch(models.Model):
 	pincode = models.CharField(max_length=6)
 	def __str__(self):
 		return self.branch_name
-
 
 class Account(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)

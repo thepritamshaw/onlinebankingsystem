@@ -7,12 +7,12 @@
 	{% block stylecontent %}
 		<style>
 			table {
-						border-collapse: collapse;
-						width: 100%;
-				}
+				border-collapse: collapse;
+				width: 100%;
+			}
 
 			th, td {
-				padding: 5px; /* Adjust the padding value as needed */
+				padding: 5px;
 				text-align: left;
 				border-bottom: 1px solid #ddd;
 			}
@@ -24,9 +24,12 @@
 				color: lightgreen;
 			}
 
-			/* Define styles for outgoing (sent) transactions */
 			.sent {
 				color: lightcoral;
+			}
+
+			.input {
+				margin-bottom: 1rem;
 			}
 		</style>
 	{% endblock %}
@@ -38,52 +41,55 @@
 			<div class="content">
 				<h1>Transaction History</h1>
 				<form id="account_form" method="GET" action="{% url 'transaction_history' %}">
-					<label for="account_select">Select Account:</label>
+					<p class="input">Select Account</p>
 					<select name="account_select" id="account_select" onchange="selectAccount()">
+						<option value="" {% if not selected_account %}selected{% endif %}>-</option>
 						{% for account in accounts %}
 							<option value="{{ account.account_number }}" {% if account == selected_account %}selected{% endif %}>{{ account.account_number }}</option>
 						{% endfor %}
 					</select>
 				</form><br>
 				<table>
-					<thead>
-						<tr>
-							<th>Date & Time</th>
-							<th>Account No</th>
-							<th>Name</th>
-							<th>Bank Reference No</th>
-							<th>Amount</th>
-							<th>Balance</th>
-						</tr>
-					</thead>
+					{% if selected_account %}
+						<thead>
+							<tr>
+								<th>Date & Time</th>
+								<th>Account No</th>
+								<th>Name</th>
+								<th>Bank Reference No</th>
+								<th>Amount</th>
+								<th>Balance</th>
+							</tr>
+						</thead>
+					{% endif %}
 					<tbody>
 						{% for data in transaction_data reversed %}
-						<tr>
-							<td>{{ data.transaction.timestamp }}</td>
-							<td>
-								{% if data.transaction.sender_account == selected_account %}
-									To: {{ data.transaction.receiver_account_number }}
-								{% else %}
-									From: {{ data.transaction.sender_account.account_number }}
-								{% endif %}
-							</td>
-							<td>
-								{% if data.transaction.sender_account == selected_account %}
-									{{ data.transaction.beneficiary_name }}
-								{% else %}
-									{{ data.transaction.sender_name }}
-								{% endif %}
-							</td>
-							<td>{{ data.transaction.bank_reference_no }}</td>
-							<td class="{% if data.transaction.sender_account == selected_account %}sent{% else %}received{% endif %}">
-								{% if data.transaction.sender_account == selected_account %}
-									-₹ {{ data.transaction.amount }}
-								{% else %}
-									+₹ {{ data.transaction.amount }}
-								{% endif %}
-							</td>
-							<td>{{ data.balance }}</td>
-						</tr>
+							<tr>
+								<td>{{ data.transaction.timestamp }}</td>
+								<td>
+									{% if data.transaction.sender_account == selected_account %}
+										To: {{ data.transaction.receiver_account_number }}
+									{% else %}
+										From: {{ data.transaction.sender_account.account_number }}
+									{% endif %}
+								</td>
+								<td>
+									{% if data.transaction.sender_account == selected_account %}
+										{{ data.transaction.beneficiary_name }}
+									{% else %}
+										{{ data.transaction.sender_name }}
+									{% endif %}
+								</td>
+								<td>{{ data.transaction.bank_reference_no }}</td>
+								<td class="{% if data.transaction.sender_account == selected_account %}sent{% else %}received{% endif %}">
+									{% if data.transaction.sender_account == selected_account %}
+										-₹ {{ data.transaction.amount }}
+									{% else %}
+										+₹ {{ data.transaction.amount }}
+									{% endif %}
+								</td>
+								<td>{{ data.balance }}</td>
+							</tr>
 						{% endfor %}
 					</tbody>
 				</table>

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponseForbidden, JsonResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
@@ -8,7 +8,6 @@ from .models import Profile, Branch, Account, Transaction
 from decimal import Decimal
 from num2words import num2words
 
-# Create your views here.
 def index(request):
 	return render(request, 'index.html')
 
@@ -150,6 +149,10 @@ def initiate_transaction(request):
 			messages.error(request, 'Beneficiary account does not exist.')
 			return redirect('initiate_transaction')
 
+		if sender_account == beneficiary_account:
+			messages.error(request, 'Sender & Receiver accounts are the same.')
+			return redirect('initiate_transaction')
+
 		if amount <= Decimal('0'):
 			messages.error(request, 'Amount should be greater than ₹0')
 			return redirect('initiate_transaction')
@@ -182,13 +185,16 @@ def initiate_transaction(request):
 
 		return redirect('transaction_success', bank_reference_no=transaction.bank_reference_no)
 	else:
-		# Get the accounts of the logged-in user for the dropdown menu
 		sender_accounts = Account.objects.filter(user=request.user)
 		return render(request, 'initiate_transaction.html', {'sender_accounts': sender_accounts})
 
 @login_required
 def transaction_success(request, bank_reference_no=None):
 	transaction = get_object_or_404(Transaction, bank_reference_no=bank_reference_no)
+
+	if request.user != transaction.sender_account.user:
+		return HttpResponseForbidden("You are not authorized to view this page.")
+
 	sender_account_number = transaction.sender_account.account_number
 
 	amount_in_words = num2words(transaction.amount, lang='en_IN').capitalize()
@@ -200,35 +206,32 @@ def transaction_success(request, bank_reference_no=None):
 	}
 	return render(request, 'transaction_success.html', context)
 
-
 @login_required
 def transaction_history(request):
-    user = request.user
-    accounts = Account.objects.filter(user=user)
+	user = request.user
+	accounts = Account.objects.filter(user=user)
 
-    selected_account_number = request.GET.get('account_select')
-    selected_account = accounts.filter(account_number=selected_account_number).first()
+	selected_account_number = request.GET.get('account_select')
+	selected_account = accounts.filter(account_number=selected_account_number).first()
 
-    if selected_account:
-        transactions_sent = Transaction.objects.filter(sender_account=selected_account)
-        transactions_received = Transaction.objects.filter(receiver_account_number=selected_account.account_number)
-        transactions = transactions_sent | transactions_received
-    else:
-        transactions = Transaction.objects.none()
+	if selected_account:
+		transactions_sent = Transaction.objects.filter(sender_account=selected_account)
+		transactions_received = Transaction.objects.filter(receiver_account_number=selected_account.account_number)
+		transactions = transactions_sent | transactions_received
+	else:
+		transactions = Transaction.objects.none()
 
-    # Prepare transaction data with dynamically calculated balances
-    transaction_data = []
+	transaction_data = []
 
-    for transaction in transactions:
-        if transaction.sender_account == selected_account:
-            balance = transaction.sender_balance_after_transaction
-        else:
-            balance = transaction.receiver_balance_after_transaction
-        
-        transaction_data.append({'transaction': transaction, 'balance': balance})
+	for transaction in transactions:
+		if transaction.sender_account == selected_account:
+			balance = transaction.sender_balance_after_transaction
+		else:
+			balance = transaction.receiver_balance_after_transaction
+		
+		transaction_data.append({'transaction': transaction, 'balance': balance})
 
-    return render(request, 'transaction_history.html', {'transaction_data': transaction_data, 'selected_account': selected_account, 'accounts': accounts})
-
+	return render(request, 'transaction_history.html', {'transaction_data': transaction_data, 'selected_account': selected_account, 'accounts': accounts})
 
 @login_required
 def userdetails(request):

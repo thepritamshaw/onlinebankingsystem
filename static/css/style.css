@@ -75,8 +75,7 @@ nav {
 
 
 .sign {
-	/* padding-right: 5vw; */
-  margin-left: 25px;
+	margin-left: 25px;
 	display: flex;
 	align-items: center;
 	background-color: #fff;
@@ -162,10 +161,6 @@ a:hover {
 		margin-bottom: 1px;
 	}
 
-	.become-a-tester {
-		display: none;
-	}
-
 	.nav-menu-item, .signin {
 		margin: 0 25px;
 	}
@@ -234,14 +229,14 @@ form {
 	padding: 20px;
 	border-radius: 5px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+	}
 
-    .input {
+	.input {
 	margin-top: 10px;
 	font-weight: bold;
-    }
+	}
 
-    select, input[type="text"], input[type="number"], input[type="password"], input[type="email"], button {
+	select, input[type="text"], input[type="number"], input[type="password"], input[type="email"], button {
 	width: 100%;
 	padding: 10px;
 	margin-top: 5px;
@@ -249,9 +244,9 @@ form {
 	border-radius: 4px;
 	box-sizing: border-box;
 	font-size: 16px;
-    }
+	}
 
-    button, .button {
+	button, .button {
 	width: 100%;
 	padding: 10px;
 	margin-top: 5px;
@@ -262,8 +257,8 @@ form {
 	background-color: #007bff;
 	color: #fff;
 	cursor: pointer;
-    }
+	}
 
-    button:hover, .button:hover {
+	button:hover, .button:hover {
 	background-color: #0056b3;
-    }
+	}
