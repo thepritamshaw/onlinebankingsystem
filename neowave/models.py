@@ -86,19 +86,25 @@ class Cheque(models.Model):
 		('cleared', 'Cleared'),
 		('stopped', 'Stopped'),
 	]
+	STOP_REASON_CHOICES = [
+		('lost', 'Cheque Reported Lost'),
+		('stopped', 'Payment Stopped by Drawer'),
+	]
 	user_account = models.ForeignKey(Account, on_delete=models.CASCADE)
 	cheque_number = models.CharField(max_length=20, unique=True)
 	amount = models.DecimalField(max_digits=10, decimal_places=2)
 	recipient = models.CharField(max_length=100)
 	status = models.CharField(max_length=10, choices=CHEQUE_STATUS_CHOICES, default='pending')
+	stop_reason = models.CharField(max_length=10, choices=STOP_REASON_CHOICES, blank=True, null=True)
 	created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cheques_created')
 	stopped_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='cheques_stopped')
 	created_at = models.DateTimeField(auto_now_add=True)
 
-	def stop_payment(self, user):
+	def stop_payment(self, user, stop_reason):
 		if self.status == 'pending':
 			self.status = 'stopped'
 			self.stopped_by = user
+			self.stop_reason = stop_reason
 			self.save()
 
 	@property

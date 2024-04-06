@@ -7,6 +7,7 @@ from django.contrib import messages
 from .models import Profile, Branch, Account, Transaction, Cheque
 from decimal import Decimal
 from num2words import num2words
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 def index(request):
 	return render(request, 'index.html')
@@ -263,4 +264,24 @@ def cheque_details(request):
 	if selected_account:
 		cheques = Cheque.objects.filter(user_account=selected_account)
 
-	return render(request, 'cheque.html', {'cheques': cheques, 'accounts': accounts, 'selected_account': selected_account})
+	return render(request, 'cheque.html', {'cheques': cheques, 'accounts': accounts, 'selected_account': selected_account, 'stop_reason_choices': Cheque.STOP_REASON_CHOICES})
+
+@ensure_csrf_cookie
+def stop_cheque(request):
+    if request.method == 'POST':
+        cheque_number = request.POST.get('cheque_number')
+        stop_reason = request.POST.get('stop_reason')
+
+        try:
+            cheque = Cheque.objects.get(cheque_number=cheque_number)
+            if cheque.status == 'pending':
+                cheque.status = 'stopped'
+                cheque.stop_reason = stop_reason
+                cheque.save()
+                return JsonResponse({'success': True, 'message': 'Cheque stopped successfully.'})
+            else:
+                return JsonResponse({'success': False, 'message': 'Cheque is not in pending status, cannot be stopped.'})
+        except Cheque.DoesNotExist:
+            return JsonResponse({'success': True, 'message': 'Cheque stopped successfully.'})
+
+    return JsonResponse({'success': False, 'message': 'Invalid request.'})
