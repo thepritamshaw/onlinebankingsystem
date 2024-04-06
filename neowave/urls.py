@@ -13,4 +13,5 @@ urlpatterns = [
 	path('get_beneficiary_name/', views.get_beneficiary_name, name='get_beneficiary_name'),
 	path('transaction_history', views.transaction_history, name= 'transaction_history'),
 	path('userdetails', views.userdetails, name= 'userdetails'),
+    path('cheque_details', views.cheque_details, name='cheque_details'),
 ]

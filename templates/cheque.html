@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+<head>
+	{% block title %}
+	<title>Log in to your Account- NeoWave Bank</title>
+	{% endblock %}
+
+	{% block stylecontent %}
+		<style>
+			table {
+				border-collapse: collapse;
+				width: 100%;
+			}
+
+			th, td {
+				padding: 5px;
+				text-align: left;
+				border-bottom: 1px solid #ddd;
+			}
+
+			th {
+				background-color: #f2f2f2;
+			}
+
+			.input {
+				margin-bottom: 1rem;
+			}
+		</style>
+	{% endblock %}
+</head>
+<body>
+	{% block bodycontent %}
+	<section>
+		<div class="container">
+			<div class="content">
+				<h1>Cheque Details</h1>
+				
+				<form id="account_form" method="GET" action="{% url 'cheque_details' %}">
+					<p class="input">Select Account</p>
+					<select name="account_select" id="account_select" onchange="selectAccount()">
+						<option value="" {% if not selected_account %}selected{% endif %}>-</option>
+						{% for account in accounts %}
+							<option value="{{ account.account_number }}" {% if account == selected_account %}selected{% endif %}>{{ account.account_number }}</option>
+						{% endfor %}
+					</select>
+				</form><br>
+				
+				<table id="cheque_table">
+					{% if selected_account %}
+						<thead>
+							<tr>
+								<th>Cheque Number</th>
+								<th>Amount</th>
+								<th>Issuer</th>
+								<th>Recipient</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+					{% endif %}
+					<tbody>
+						{% for cheque in cheques reversed %}
+						<tr>
+							<td>{{ cheque.cheque_number }}</td>
+							<td>{{ cheque.amount }}</td>
+							<td>{{ cheque.issuer }}</td>
+							<td>{{ cheque.recipient }}</td>
+							<td>{{ cheque.status }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+
+				<script>
+					function selectAccount() {
+						document.getElementById("account_form").submit();
+					}
+				</script>
+			</div>
+		</div>
+	</section>
+	{% endblock%}
+</body>

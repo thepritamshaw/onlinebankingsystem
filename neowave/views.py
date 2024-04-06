@@ -4,7 +4,7 @@ from django.http import HttpResponseForbidden, JsonResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from .models import Profile, Branch, Account, Transaction
+from .models import Profile, Branch, Account, Transaction, Cheque
 from decimal import Decimal
 from num2words import num2words
 
@@ -251,3 +251,16 @@ def userdetails(request):
 		return redirect('index')
 
 	return render(request, 'userdetails.html', {'profile': profile})
+
+def cheque_details(request):
+	user = request.user
+	accounts = Account.objects.filter(user=user)
+
+	selected_account_number = request.GET.get('account_select')
+	selected_account = accounts.filter(account_number=selected_account_number).first()
+	cheques = []
+
+	if selected_account:
+		cheques = Cheque.objects.filter(user_account=selected_account)
+
+	return render(request, 'cheque.html', {'cheques': cheques, 'accounts': accounts, 'selected_account': selected_account})
