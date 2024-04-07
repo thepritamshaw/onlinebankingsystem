@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+<head>
+	{% block title %}
+	<title>Account Statement - NeoWave Bank</title>
+	{% endblock %}
+
+	{% block stylecontent %}
+		<style>
+			.received {
+				color: green;
+			}
+
+			.sent {
+				color: red;
+			}
+		</style>
+	{% endblock %}
+</head>
+<body>
+	{% block bodycontent %}
+	<section>
+		<div class="container">
+			<div class="content">
+				<h1>Transaction Statement</h1>
+				{% for account_number, account_data in transaction_data.items %}
+				<br><br>
+				<h3>Account: {{ account_number }}</h3><br>
+				<table>
+					<thead>
+						<tr>
+							<th>Date & Time</th>
+							<th>Account No</th>
+							<th>Name</th>
+							<th>Bank Reference No</th>
+							<th>Amount</th>
+							<th>Balance</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td colspan="5" style="text-align: right;">Opening Balance:</td>
+							<td>{{ account_data.opening_balance }}</td>
+						</tr>
+						{% for transaction in account_data.transactions %}
+						<tr>
+							<td>{{ transaction.timestamp }}</td>
+							<td>
+								{% if transaction.sender_account.account_number == account_number %}
+									To: {{ transaction.receiver_account_number }}
+								{% else %}
+									From: {{ transaction.sender_account.account_number }}
+								{% endif %}
+							</td>
+							<td>{{ transaction.beneficiary_name }}</td>
+							<td>{{ transaction.bank_reference_no }}</td>
+							<td class="{% if transaction.sender_account.account_number == account_number %}sent{% else %}received{% endif %}">
+								{% if transaction.sender_account.account_number == account_number %}
+									-₹ {{ transaction.amount }}
+								{% else %}
+									+₹ {{ transaction.amount }}
+								{% endif %}
+							</td>
+							<td>
+								{% if transaction.sender_account.account_number == account_number %}
+									{{ transaction.sender_balance_after_transaction }}
+								{% else %}
+									{{ transaction.receiver_balance_after_transaction }}
+								{% endif %}
+							</td>
+						</tr>
+						{% endfor %}
+						<tr>
+							<td colspan="5" style="text-align: right;">Closing Balance:</td>
+							<td>{{ account_data.closing_balance }}</td>
+						</tr>
+					</tbody>
+				</table>
+				{% endfor %}
+				<br><br>
+			</div>
+		</div>
+	</section>
+	{% endblock %}
+</body>

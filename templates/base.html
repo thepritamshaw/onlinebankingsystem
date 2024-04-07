@@ -46,7 +46,7 @@
 							<ul class="dropdown-menu">
 								<li><a href="/userdetails">Update Profile</a></li>
 								<li><a href="/cheque_details">Cheques</a></li>
-								<li><a href="#">DD3</a></li>
+								<li><a href="/get_statement">Statement</a></li>
 								<li><a href="#">DD4</a></li>
 								<li><a href="#">DD5</a></li>
 								<li><a href="#">DD6</a></li>
@@ -57,9 +57,9 @@
 					</ul>
 					<div class="sign">
 						{% if user.is_authenticated %}
-							<li><a class="signin white-button-blue-text" href="logout">Logout</a></li>
+							<li><a class="signin white-button-blue-text" href="/logout">Logout</a></li>
 						{% else %}
-							<li><a class="signin white-button-blue-text" href="login">Login&nbsp;or&nbsp;Signup</a></li>
+							<li><a class="signin white-button-blue-text" href="/login">Login&nbsp;or&nbsp;Signup</a></li>
 						{% endif %}
 					</div>
 				</div>

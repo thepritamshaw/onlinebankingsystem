@@ -7,7 +7,9 @@ from django.contrib import messages
 from .models import Profile, Branch, Account, Transaction, Cheque
 from decimal import Decimal
 from num2words import num2words
+from datetime import datetime, timedelta
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.db.models import Q
 
 def index(request):
 	return render(request, 'index.html')
@@ -266,3 +268,117 @@ def stop_cheque(request):
 			return JsonResponse({'success': True, 'message': 'Cheque stopped successfully.'})
 
 	return JsonResponse({'success': False, 'message': 'Invalid request.'})
+
+@login_required
+def get_statement(request):
+	if request.method == 'POST':
+		month = request.POST.get('month')
+		year = request.POST.get('year')
+		user = request.user
+
+		accounts = Account.objects.filter(user=user)
+		transaction_data = {}
+		
+		for account in accounts:
+			transactions_sent = Transaction.objects.filter(sender_account=account)
+			transactions_received = Transaction.objects.filter(receiver_account_number=account.account_number)
+			transactions = transactions_sent | transactions_received
+			if month:
+				transactions = transactions.filter(timestamp__month=month)
+			if year:
+				transactions = transactions.filter(timestamp__year=year)
+
+			transaction_data[account.account_number] = transactions
+
+		return render(request, 'transaction_statement.html', {'transaction_data': transaction_data})
+	
+	return render(request, 'get_statement.html')
+
+
+@login_required
+def transaction_statement(request):
+	user = request.user
+	accounts = Account.objects.filter(user=user)
+	transaction_data = {}
+
+	month = request.POST.get('month')
+	year = int(request.POST.get('year'))
+
+	for account in accounts:
+		if month:
+			opening_balance, closing_balance = get_opening_closing_balance(account, int(month), year)
+		else:
+			# If month is not selected, get the statement for the entire year
+			opening_balance, closing_balance = get_opening_closing_balance(account, 1, year)
+
+		transactions_sent = Transaction.objects.filter(sender_account=account)
+		transactions_received = Transaction.objects.filter(receiver_account_number=account.account_number)
+		transactions = transactions_sent | transactions_received
+
+		if month:
+			transactions = transactions.filter(timestamp__month=int(month))
+		transactions = transactions.filter(timestamp__year=year)
+
+		transaction_data[account.account_number] = {
+			'transactions': transactions,
+			'opening_balance': opening_balance,
+			'closing_balance': closing_balance
+		}
+
+	return render(request, 'transaction_statement.html', {'transaction_data': transaction_data})
+
+
+def get_opening_closing_balance(account, month, year):
+	# Get the first day of the target month
+	first_day_of_month = datetime(year, month, 1)
+
+	# Get the last transaction before the target month
+	last_transaction_before_month = Transaction.objects.filter(
+		Q(sender_account=account) | Q(receiver_account_number=account.account_number),
+		timestamp__lt=first_day_of_month
+	).order_by('-timestamp').first()
+
+	# Get the first transaction after the target month
+	first_transaction_after_month = Transaction.objects.filter(
+		Q(sender_account=account) | Q(receiver_account_number=account.account_number),
+		timestamp__gte=first_day_of_month
+	).order_by('timestamp').first()
+
+	opening_balance = account.balance
+
+	# Use the current account balance if no transactions before the target month
+	if last_transaction_before_month is None:
+		if first_transaction_after_month is None:
+			return opening_balance, opening_balance  # No transactions at all
+		if first_transaction_after_month.sender_account == account:
+			opening_balance = first_transaction_after_month.sender_balance_after_transaction + first_transaction_after_month.amount
+		else:
+			opening_balance = first_transaction_after_month.receiver_balance_after_transaction - first_transaction_after_month.amount
+	elif first_transaction_after_month is None:
+		if last_transaction_before_month.sender_account == account:
+			opening_balance = last_transaction_before_month.sender_balance_after_transaction
+		else:
+			opening_balance = last_transaction_before_month.receiver_balance_after_transaction
+		return opening_balance, opening_balance  # No transactions after the target month
+	else:
+		if first_transaction_after_month.sender_account == account:
+			opening_balance = first_transaction_after_month.sender_balance_after_transaction + first_transaction_after_month.amount
+		else:
+			opening_balance = first_transaction_after_month.receiver_balance_after_transaction - first_transaction_after_month.amount
+
+	# Calculate the closing balance for the target month
+	last_day_of_month = first_day_of_month.replace(day=1) + timedelta(days=32)
+	transactions_in_month = Transaction.objects.filter(
+		Q(sender_account=account) | Q(receiver_account_number=account.account_number),
+		timestamp__gte=first_day_of_month,
+		timestamp__lt=last_day_of_month
+	)
+
+	closing_balance = opening_balance
+	for transaction in transactions_in_month:
+		if transaction.sender_account == account:
+			closing_balance -= transaction.amount
+		else:
+			closing_balance += transaction.amount
+
+	return opening_balance, closing_balance

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+<head>
+	{% block title %}
+	<title>Get Account Statement- NeoWave Bank</title>
+	{% endblock %}
+
+</head>
+<body>
+	{% block bodycontent %}
+	<section>
+		<div class="container">
+			<div class="content">
+				<form method="post" action="{% url 'transaction_statement' %}">
+					<h1>Get Statement</h1>
+					{% csrf_token %}
+					<p class="input">Month</p>
+					<select id="month" name="month">
+						<option value="">All Months</option>
+						<option value="1">January</option>
+						<option value="2">February</option>
+						<option value="3">March</option>
+						<option value="4">April</option>
+						<option value="5">May</option>
+						<option value="6">June</option>
+						<option value="7">July</option>
+						<option value="8">August</option>
+						<option value="9">September</option>
+						<option value="10">October</option>
+						<option value="11">November</option>
+						<option value="12">December</option>
+					</select>
+					<p class="input">Year</p>
+					<select id="year" name="year">
+						<option value="">Select Year</option>
+						<option value="2024">2024</option>
+						<option value="2023">2023</option>
+					</select><br><br>
+					<button type="submit">Generate Statement</button>
+				</form>
+			</div>
+		</div>
+	</section>
+	{% endblock%}
+</body>

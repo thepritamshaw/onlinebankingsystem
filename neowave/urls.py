@@ -13,6 +13,8 @@ urlpatterns = [
 	path('get_beneficiary_name/', views.get_beneficiary_name, name='get_beneficiary_name'),
 	path('transaction_history', views.transaction_history, name= 'transaction_history'),
 	path('userdetails', views.userdetails, name= 'userdetails'),
-    path('cheque_details', views.cheque_details, name='cheque_details'),
-    path('stop_cheque/', views.stop_cheque, name='stop_cheque'),
+	path('cheque_details', views.cheque_details, name='cheque_details'),
+	path('stop_cheque/', views.stop_cheque, name='stop_cheque'),
+	path('get_statement/', views.get_statement, name='get_statement'),
+	path('transaction_statement/', views.transaction_statement, name='transaction_statement'),
 ]
