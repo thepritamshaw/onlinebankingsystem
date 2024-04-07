@@ -150,41 +150,22 @@ def initiate_transaction(request):
 			messages.error(request, 'Beneficiary account does not exist.')
 			return redirect('initiate_transaction')
 
-		if sender_account == beneficiary_account:
-			messages.error(request, 'Sender & Receiver accounts are the same.')
+		try:
+			transaction = Transaction(
+				sender_account=sender_account,
+				receiver_account_number=beneficiary_account_number,
+				receiver_ifsc=beneficiary_ifsc,
+				amount=amount,
+				beneficiary_name=beneficiary_account.account_holder_name,
+				sender_name=sender_account.account_holder_name
+			)
+			transaction.save()
+			
+			return redirect('transaction_success', bank_reference_no=transaction.bank_reference_no)
+		except ValueError as e:
+			messages.error(request, str(e))
 			return redirect('initiate_transaction')
 
-		if amount <= Decimal('0'):
-			messages.error(request, 'Amount should be greater than ₹0')
-			return redirect('initiate_transaction')
-
-		beneficiary_name = beneficiary_account.account_holder_name
-		sender_name = sender_account.account_holder_name
-
-		if sender_account.balance < amount:
-			messages.error(request, 'Insufficient balance.')
-			return redirect('initiate_transaction')
-
-		sender_account.balance -= amount
-		sender_account.save()
-		beneficiary_account.balance += amount
-		beneficiary_account.save()
-
-		sender_balance_after_transaction = sender_account.balance
-		receiver_balance_after_transaction = beneficiary_account.balance
-
-		transaction = Transaction.objects.create(
-			sender_account=sender_account,
-			receiver_account_number=beneficiary_account_number,
-			receiver_ifsc=beneficiary_ifsc,
-			amount=amount,
-			beneficiary_name=beneficiary_name,
-			sender_name=sender_name,
-			sender_balance_after_transaction=sender_balance_after_transaction,
-			receiver_balance_after_transaction=receiver_balance_after_transaction
-		)
-
-		return redirect('transaction_success', bank_reference_no=transaction.bank_reference_no)
 	else:
 		sender_accounts = Account.objects.filter(user=request.user)
 		return render(request, 'initiate_transaction.html', {'sender_accounts': sender_accounts})
@@ -268,20 +249,20 @@ def cheque_details(request):
 
 @ensure_csrf_cookie
 def stop_cheque(request):
-    if request.method == 'POST':
-        cheque_number = request.POST.get('cheque_number')
-        stop_reason = request.POST.get('stop_reason')
+	if request.method == 'POST':
+		cheque_number = request.POST.get('cheque_number')
+		stop_reason = request.POST.get('stop_reason')
 
-        try:
-            cheque = Cheque.objects.get(cheque_number=cheque_number)
-            if cheque.status == 'pending':
-                cheque.status = 'stopped'
-                cheque.stop_reason = stop_reason
-                cheque.save()
-                return JsonResponse({'success': True, 'message': 'Cheque stopped successfully.'})
-            else:
-                return JsonResponse({'success': False, 'message': 'Cheque is not in pending status, cannot be stopped.'})
-        except Cheque.DoesNotExist:
-            return JsonResponse({'success': True, 'message': 'Cheque stopped successfully.'})
+		try:
+			cheque = Cheque.objects.get(cheque_number=cheque_number)
+			if cheque.status == 'pending':
+				cheque.status = 'stopped'
+				cheque.stop_reason = stop_reason
+				cheque.save()
+				return JsonResponse({'success': True, 'message': 'Cheque stopped successfully.'})
+			else:
+				return JsonResponse({'success': False, 'message': 'Cheque is not in pending status, cannot be stopped.'})
+		except Cheque.DoesNotExist:
+			return JsonResponse({'success': True, 'message': 'Cheque stopped successfully.'})
 
-    return JsonResponse({'success': False, 'message': 'Invalid request.'})
+	return JsonResponse({'success': False, 'message': 'Invalid request.'})

@@ -75,10 +75,28 @@ class Transaction(models.Model):
 			else:
 				self.bank_reference_no = 'B00000001'
 
+		if self.sender_account.balance < self.amount:
+			raise ValueError('Insufficient balance.')
+		
+		self.sender_account.balance -= self.amount
+		self.sender_balance_after_transaction = self.sender_account.balance
+
+		try:
+			receiver_account = Account.objects.get(account_number=self.receiver_account_number, ifsc=self.receiver_ifsc)
+		except Account.DoesNotExist:
+			raise ValueError('Receiver account does not exist.')
+
+		receiver_account.balance += self.amount
+		self.receiver_balance_after_transaction = receiver_account.balance
+
+		self.sender_account.save()
+		receiver_account.save()
+
 		super().save(*args, **kwargs)
 
 	def __str__(self):
 		return self.bank_reference_no
+
 
 class Cheque(models.Model):
 	CHEQUE_STATUS_CHOICES = [
