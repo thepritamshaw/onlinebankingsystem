@@ -97,7 +97,6 @@ class Transaction(models.Model):
 	def __str__(self):
 		return self.bank_reference_no
 
-
 class Cheque(models.Model):
 	CHEQUE_STATUS_CHOICES = [
 		('pending', 'Pending'),

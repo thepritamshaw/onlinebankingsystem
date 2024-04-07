@@ -221,6 +221,10 @@ body {
   padding: 0;
 }
 
+
+
+/* form */
+
 form {
 	margin: 20px auto;
 	width: 80%;
@@ -234,6 +238,11 @@ form {
 	.input {
 	margin-top: 10px;
 	font-weight: bold;
+	}
+
+	p.input {
+		margin-top: 1rem;
+		margin-bottom: 0;
 	}
 
 	select, input[type="text"], input[type="number"], input[type="password"], input[type="email"], button {
