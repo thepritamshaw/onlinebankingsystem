@@ -21,10 +21,15 @@
 	<section>
 		<div class="container">
 			<div class="content">
-				<h1>Transaction Statement</h1>
+				<h1>Transaction Statement</h1><br><br>
+				<h3>User ID: {{ request.user.username }}</h3>
+				<h3>{{ request.user.profile.firstname }} {{ request.user.profile.lastname }}</h3>
+				<h3>{{ request.user.profile.street }}, {{ request.user.profile.city }}, {{ request.user.profile.pincode }}</h3>
+				<h3>Mobile No: {{ request.user.profile.mobilenumber }}</h3>
 				{% for account_number, account_data in transaction_data.items %}
-				<br><br>
-				<h3>Account: {{ account_number }}</h3><br>
+				<br><br><br>
+				<h3>Account: {{ account_number }}</h3>
+				<h3>IFSC: {{ account_data.ifsc }}</h3><br>
 				<table>
 					<thead>
 						<tr>

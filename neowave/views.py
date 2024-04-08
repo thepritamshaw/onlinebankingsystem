@@ -236,6 +236,7 @@ def userdetails(request):
 
 	return render(request, 'userdetails.html', {'profile': profile})
 
+@login_required
 def cheque_details(request):
 	user = request.user
 	accounts = Account.objects.filter(user=user)
@@ -294,7 +295,6 @@ def get_statement(request):
 	
 	return render(request, 'get_statement.html')
 
-
 @login_required
 def transaction_statement(request):
 	user = request.user
@@ -309,7 +309,7 @@ def transaction_statement(request):
 			opening_balance, closing_balance = get_opening_closing_balance(account, int(month), year)
 		else:
 			# If month is not selected, get the statement for the entire year
-			opening_balance, closing_balance = get_opening_closing_balance(account, 1, year)
+			opening_balance, closing_balance = get_opening_closing_balance(account, None, year)
 
 		transactions_sent = Transaction.objects.filter(sender_account=account)
 		transactions_received = Transaction.objects.filter(receiver_account_number=account.account_number)
@@ -322,15 +322,18 @@ def transaction_statement(request):
 		transaction_data[account.account_number] = {
 			'transactions': transactions,
 			'opening_balance': opening_balance,
-			'closing_balance': closing_balance
+			'closing_balance': closing_balance,
+			'ifsc': account.ifsc
 		}
 
 	return render(request, 'transaction_statement.html', {'transaction_data': transaction_data})
 
-
 def get_opening_closing_balance(account, month, year):
-	# Get the first day of the target month
-	first_day_of_month = datetime(year, month, 1)
+
+	if month is None:
+		first_day_of_month = datetime(year, 1, 1)
+	else:
+		first_day_of_month = datetime(year, month, 1)
 
 	# Get the last transaction before the target month
 	last_transaction_before_month = Transaction.objects.filter(
@@ -343,6 +346,18 @@ def get_opening_closing_balance(account, month, year):
 		Q(sender_account=account) | Q(receiver_account_number=account.account_number),
 		timestamp__gte=first_day_of_month
 	).order_by('timestamp').first()
+
+	if month is not None:
+		next_month = month + 1
+		next_year = year
+
+		if next_month > 12:
+			next_month = 1
+			next_year += 1
+		first_day_of_next_month = datetime(next_year, next_month, 1)
+	else:
+		next_year = year+1
+		first_day_of_next_month = datetime(next_year, 1, 1)
 
 	opening_balance = account.balance
 
@@ -367,11 +382,10 @@ def get_opening_closing_balance(account, month, year):
 			opening_balance = first_transaction_after_month.receiver_balance_after_transaction - first_transaction_after_month.amount
 
 	# Calculate the closing balance for the target month
-	last_day_of_month = first_day_of_month.replace(day=1) + timedelta(days=32)
 	transactions_in_month = Transaction.objects.filter(
 		Q(sender_account=account) | Q(receiver_account_number=account.account_number),
 		timestamp__gte=first_day_of_month,
-		timestamp__lt=last_day_of_month
+		timestamp__lt=first_day_of_next_month
 	)
 
 	closing_balance = opening_balance

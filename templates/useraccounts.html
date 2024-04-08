@@ -10,12 +10,13 @@
 	<section>
 		<div class="container">
 			<div class="content">
-				<h1>User Accounts</h1>
+				<h1>User Accounts</h1><br><br>
 
-				<h3>User: {{ user.username }}</h3>
+				<h3>User ID: {{ user.username }}</h3>
+				<h3>{{ request.user.profile.firstname }} {{ request.user.profile.lastname }}</h3><br><br>
 
 				{% if accounts %}
-					<table border="2">
+					<table>
 						<thead>
 							<tr>
 								<th>Account Number</th>
