@@ -101,6 +101,24 @@ def useraccounts(request):
 	return render(request, 'useraccounts.html', {'accounts': accounts, 'branches': branches})
 
 @login_required
+def change_branch(request):
+	if request.method == 'POST':
+		account_number = request.POST.get('account_number')
+		branch_id = request.POST.get('branch')
+		try:
+			account = Account.objects.get(account_number=account_number)
+			branch = Branch.objects.get(id=branch_id)
+			account.branch_name = branch
+			account.ifsc = branch.ifsc
+			account.save()
+			return redirect('useraccounts')
+		except (Account.DoesNotExist, Branch.DoesNotExist):
+			# Handle errors here (e.g., display an error message)
+			pass
+	# Redirect to useraccounts page if the request method is not POST or if there's an error
+	return redirect('useraccounts')
+
+@login_required
 def createaccount(request):
 	if request.method == 'POST':
 		user = request.user

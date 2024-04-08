@@ -40,11 +40,23 @@ class Account(models.Model):
 	def save(self, *args, **kwargs):
 		if self.pk is None:
 			if self.branch_name:
+				# Get the last 6 digits of the branch IFSC
+				branch_ifsc_suffix = self.branch_name.ifsc[-6:]
+				# Filter accounts with the same branch IFSC suffix
+				accounts_with_suffix = Account.objects.filter(account_number__startswith=branch_ifsc_suffix)
+				# Get the last account with the same branch IFSC suffix
+				last_account_with_suffix = accounts_with_suffix.order_by('-account_number').first()
+				
+				if last_account_with_suffix:
+					# Extract the numeric part of the account number
+					last_account_number = int(last_account_with_suffix.account_number[-6:])
+					# Generate the new account number by incrementing the last one
+					new_account_number = str(last_account_number + 1).zfill(6)
+					self.account_number = f"{branch_ifsc_suffix}{new_account_number}"
+				else:
+					# If no account exists for this branch, start with '000001'
+					self.account_number = f"{branch_ifsc_suffix}000001"
 				self.ifsc = self.branch_name.ifsc
-
-				account_numbers = Account.objects.filter(branch_name=self.branch_name)
-				next_account_number = str(account_numbers.count() + 1).zfill(6)
-				self.account_number = f"{self.branch_name.ifsc[-6:]}{next_account_number}"
 
 		profile = self.user.profile
 		self.account_holder_name = f"{profile.firstname} {profile.lastname}"

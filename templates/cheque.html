@@ -45,15 +45,15 @@
 			}
 
 			.cleared {
-			    color: green;
+				color: green;
 			}
 
 			.pending {
-			    color: rgb(233, 136, 0);
+				color: rgb(233, 136, 0);
 			}
 
 			.stopped {
-			    color: red;
+				color: red;
 			}
 		</style>
 	{% endblock %}
@@ -136,38 +136,38 @@
 					}
 
 					function openPopup(chequeNumber) {
-					    document.getElementById("statusChangeModal").style.display = "block";
-					    document.getElementById("chequeNumber").value = chequeNumber;
+						document.getElementById("statusChangeModal").style.display = "block";
+						document.getElementById("chequeNumber").value = chequeNumber;
 					}
 
 					function stopCheque() {
-					    var formElement = document.getElementById("statusChangeForm");
-					    var formData = new FormData(formElement);
+						var formElement = document.getElementById("statusChangeForm");
+						var formData = new FormData(formElement);
 
 						var stopReason = document.getElementById("stopReason").value.trim();
-					    if (stopReason === "") {
-					        alert("Please select a stop reason.");
-					        return;
-					    }
+						if (stopReason === "") {
+							alert("Please select a stop reason.");
+							return;
+						}
 
-					    fetch("{% url 'stop_cheque' %}", {
-					        method: 'POST',
-					        body: formData,
-					    })
-					    .then(response => {
-					        if (response.ok) {
-					            console.log("Cheque stopped successfully.");
-					            closeModal();
+						fetch("{% url 'stop_cheque' %}", {
+							method: 'POST',
+							body: formData,
+						})
+						.then(response => {
+							if (response.ok) {
+								console.log("Cheque stopped successfully.");
+								closeModal();
 								location.reload();
-					        } else {
-					            throw new Error("Failed to stop cheque.");
-					        }
-					    })
-					    .catch(error => {
-					        console.error('Error stopping cheque:', error);
-					        alert('An error occurred while stopping the cheque.');
-					        closeModal();
-					    });
+							} else {
+								throw new Error("Failed to stop cheque.");
+							}
+						})
+						.catch(error => {
+							console.error('Error stopping cheque:', error);
+							alert('An error occurred while stopping the cheque.');
+							closeModal();
+						});
 					}
 				</script>
 			</div>

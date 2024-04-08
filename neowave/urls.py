@@ -7,6 +7,7 @@ urlpatterns = [
 	path('login', views.login, name= 'login'),
 	path('logout', views.logout, name= 'logout'),
 	path('useraccounts', views.useraccounts, name= 'useraccounts'),
+    path('change_branch/', views.change_branch, name='change_branch'),
 	path('createaccount', views.createaccount, name='createaccount'),
 	path('initiate_transaction', views.initiate_transaction, name='initiate_transaction'),
 	path('transaction_success/<str:bank_reference_no>/', views.transaction_success, name='transaction_success'),
