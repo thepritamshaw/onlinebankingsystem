@@ -31,7 +31,7 @@ class TransactionAdmin(admin.ModelAdmin):
 admin.site.register(Transaction, TransactionAdmin)
 
 class ChequeAdmin(admin.ModelAdmin):
-	list_display = ('cheque_number', 'user_account', 'amount', 'issuer', 'recipient', 'status')
+	list_display = ('cheque_number', 'user_account', 'amount', 'issuer', 'recipient', 'status', 'stopped_by')
 	search_fields = ('cheque_number', 'user_account__account_number', 'issuer', 'recipient')
 	list_filter = ('status',)
 	readonly_fields = ('created_by', 'stopped_by', 'created_at')
@@ -39,6 +39,8 @@ class ChequeAdmin(admin.ModelAdmin):
 	def save_model(self, request, obj, form, change):
 		if not obj.pk:
 			obj.created_by = request.user
+		if obj.status == 'stopped' and not obj.stopped_by:
+			obj.stopped_by = request.user
 		super().save_model(request, obj, form, change)
 
 	def get_readonly_fields(self, request, obj=None):

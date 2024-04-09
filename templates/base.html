@@ -21,11 +21,85 @@
 	{% block stylecontent %}
 
 	{% endblock %}
-
+	<style>
+		.neumorphic-header {
+			position: relative;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 10px 20px;
+			background-color: #ffffff;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		}
+	
+		.nav-and-sign {
+			display: flex;
+			align-items: center;
+		}
+		.nav-menu-item {
+			margin: 0;
+			padding: 10px;
+		}
+	
+		.service-icon {
+			margin: 0 ;
+			padding: 0;
+			width: 30px;
+			height: 30px;
+			cursor: pointer;
+		}
+	
+		.dropdown-menu {
+			position: absolute;
+			top: 100%;
+			right: 0;
+			background-color: #ffffff;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			list-style: none;
+			padding: 10px;
+			margin: 0;
+			display: none;
+		}
+	
+		.dropdown-menu li {
+			list-style: none;
+		}
+	
+		.dropdown-menu li a {
+			text-decoration: none;
+			display: block;
+			padding: 8px 0px; /* Added padding */
+			color: #183b56; /* Changed text color */
+			text-align: center;
+		}
+	
+		.blue-button-white-text {
+			background-color: #2294ed;
+			border: 1px solid #2294ed;
+			border-radius: 4px;
+			padding: 12px 24px;
+			font-weight: 700;
+			color: #fff;
+		}
+		
+		.dropdown:hover .dropdown-menu {
+			color: #183b56;
+			display: block;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added box shadow */
+		}
+		
+		.blue-button-white-text:hover {
+			background-color: #0061ad;
+			border: 1px solid #0061ad;
+		}
+		.dropdown-menu .blue-button-white-text {
+        color: #fff;
+    }
+	</style>
 </head>
 
 <body>
-	<header id="header" class="fixed-top">
+	<!-- <header id="header" class="fixed-top">
 		<input type="checkbox" id="toggle">
 			<nav>
 				<div class="titlecontainer">
@@ -64,6 +138,27 @@
 					</div>
 				</div>
 			</nav>
+	</header> -->
+
+	<header id="header" class="neumorphic-header">
+		<h1 class="logo"><a href="/">NeoWave</a></h1>
+		
+		{% if user.is_authenticated %}
+		<div class="dropdown nav-menu-item">
+			<img src="{% static 'assets/usericon.png' %}" alt="Profile" class="service-icon dropdown">
+			<ul class="dropdown-menu">
+				<li><a href="/userdetails">Update&nbsp;Profile</a></li>
+				<li><a class="blue-button-white-text logout" href="/logout">Logout</a></li>
+			</ul>
+		</div>
+		{% else %}
+		<div class="sign">
+			<a href="/login"
+				class="signin white-button-blue-text">Sign&nbsp;in</a>
+			<a href="/register"
+				class="signup blue-button-white-text">Sign&nbsp;up</a>
+		{% endif %}
+		</div>
 	</header>
 	<br>
 		{% block bodycontent %}

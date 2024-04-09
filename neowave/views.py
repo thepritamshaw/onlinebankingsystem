@@ -7,8 +7,7 @@ from django.contrib import messages
 from .models import Profile, Branch, Account, Transaction, Cheque
 from decimal import Decimal
 from num2words import num2words
-from datetime import datetime, timedelta
-from django.views.decorators.csrf import ensure_csrf_cookie
+from datetime import datetime
 from django.db.models import Q
 
 def index(request):
@@ -268,7 +267,7 @@ def cheque_details(request):
 
 	return render(request, 'cheque.html', {'cheques': cheques, 'accounts': accounts, 'selected_account': selected_account, 'stop_reason_choices': Cheque.STOP_REASON_CHOICES})
 
-@ensure_csrf_cookie
+@login_required
 def stop_cheque(request):
 	if request.method == 'POST':
 		cheque_number = request.POST.get('cheque_number')
@@ -277,9 +276,7 @@ def stop_cheque(request):
 		try:
 			cheque = Cheque.objects.get(cheque_number=cheque_number)
 			if cheque.status == 'pending':
-				cheque.status = 'stopped'
-				cheque.stop_reason = stop_reason
-				cheque.save()
+				cheque.stop_payment(request.user, stop_reason)
 				return JsonResponse({'success': True, 'message': 'Cheque stopped successfully.'})
 			else:
 				return JsonResponse({'success': False, 'message': 'Cheque is not in pending status, cannot be stopped.'})

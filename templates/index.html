@@ -3,18 +3,170 @@
 	{% block title %}
 	<title>NeoWave Bank-Personal Banking & Netbanking Services</title>
 	{% endblock %}
+	{% block stylecontent %}
+	<style>
+		.services {
+			text-align: center;
+			padding: 50px 0;
+		}
+			
+		.service-grid {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+		}
+		
+		.icon {
+			width: 64px;
+			height: 64px;
+		}
+		
+		.service-item {
+			width: 180px;
+			height: 100px;
+			flex: 0 0 calc(10% - 20px);
+			margin: 0 10px 20px;
+			padding: 20px;
+			background-color:#f0f3f8;
+			border-radius: 8px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			color: #183b56;
+		}
+		
+		@media (max-width: 768px) {
+			.service-item {
+				flex-basis: calc(40% - 20px);
+			}
+		}
+		
+		@media (max-width: 576px) {
+			.service-item {
+				flex-basis: calc(100% - 20px);
+			}
+		}
+		
+		.welcome-div {
+			background-color: #f0f3f8;
+			padding: 50px;
+			border-radius: 10px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			text-align: center;
+			color: #183b56;
+			font-family: "Inter", sans-serif;
+			margin: 0 auto;
+			max-width: 600px;
+			margin: 10px auto 0;
+		}
+		
+		.welcome-div h2 {
+			margin-bottom: 20px;
+		}
+		
+		.welcome-div p {
+			line-height: 1.5;
+		}
+		
+		.button-container {
+			display: flex;
+		}
+		
+		.hero {
+			margin: top 5px;
+			text-align: center;
+			padding: 50px 20px;
+			color: black;
+			width: 80%;
+			margin: 50px auto;
+		}
+		
+		.herobtn {
+			display: block;
+			width: 225px;
+			margin: 0 auto;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 20px;
+			background-color: #007bff;
+			color: #fff;
+			font-size: 16px;
+			cursor: pointer;
+			text-decoration: none;
+		}
+		
+		.herobtn:hover {
+			background-color: #0056b3;
+		}
+		
+		.services {
+			padding: 20px;
+		}
+		
+		.service-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+			gap: 20px;
+			text-align: center;
+		}
+		
+		.service-item {
+			border-radius: 20px;
+			padding: 20px;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			backdrop-filter: blur(10px);
+			transition: transform 0.3s ease;
+		}
+		
+		.service-item:hover {
+			transform: translateY(-10px);
+		}
+		
+		.glass {
+			border-radius: 10px;
+			border: 1px solid rgba(255, 255, 255, 0.18);
+			backdrop-filter: blur(5px);
+		}
+	</style>
+	{% endblock %}
+
 </head>
 <body>
 	{% block bodycontent %}
-
-	<section>
+	{% if user.is_authenticated %}
+	<div class="welcome-div">
+		<h1>Welcome, {{ user.username }}</h1><br>
+		<p>Thank you for choosing NeoWave Bank for your banking needs.</p>
+	</div>
+	<section class="services">
 		<div class="container">
-			<div class="content">
-				<h1>Welcome {{user.username}}</h1>
+			<br><h2>Our Services</h2><br><br>
+			<div class="service-grid">
+				<a href="/initiate_transaction">
+				<div class="service-item">
+					<img class="icon" src="../static/assets/moneyicon.png" alt="">
+					<h3>Money Transfer</h3>
+				</div></a>
+	
+				<a href="/useraccounts">
+				<div class="service-item">
+					<img class="icon" src="../static/assets/bankicon.png" alt="">
+						<h3>Accounts</h3>
+				</div></a>
+	
+				<a href="/transaction_history">
+				<div class="service-item">
+					<img class="icon" src="../static/assets/transaction.png" alt="">
+					<h3>Transaction History</h3>
+				</div></a>
+	
+				<a href="/cheque_details">
+				<div class="service-item">
+					<img class="icon" src="../static/assets/cheque.png" alt="">
+					<h3>Cheques</h3>
+				</div></a>
 			</div>
 		</div>
 	</section>
-	
+	{% endif %}
 	{% endblock%}
 </body>
 

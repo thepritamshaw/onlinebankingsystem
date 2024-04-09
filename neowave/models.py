@@ -134,7 +134,7 @@ class Cheque(models.Model):
 			self.stopped_by = user
 			self.stop_reason = stop_reason
 			self.save()
-
+			
 	@property
 	def issuer(self):
 		return self.user_account.account_holder_name
