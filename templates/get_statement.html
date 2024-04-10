@@ -7,11 +7,22 @@
 </head>
 <body>
 	{% block bodycontent %}
+	<style>		.h1er {
+		text-align: center; 
+		background-color: rgba(255, 255, 255, 0.15); 
+		backdrop-filter: blur(10px); 
+		color: black; 
+		padding: 20px; 
+		border-radius: 10px;
+		margin: 0 auto; /* Center the div horizontally */
+		width: fit-content; /* Adjust width based on content */
+		box-shadow: 0 17px 8px rgba(0, 0, 0, 0.1);
+	}</style>
 	<section>
 		<div class="container">
 			<div class="content">
 				<form method="post" action="{% url 'transaction_statement' %}">
-					<h1>Get Statement</h1>
+					<h1 class="h1er">Get Statement</h1>
 					{% csrf_token %}
 					<p class="input">Month</p>
 					<select id="month" name="month">
