@@ -68,7 +68,7 @@
     border-radius: 10px;
     margin: 0 auto; /* Center the div horizontally */
     width: fit-content; /* Adjust width based on content */
-	box-shadow: 0 17px 8px rgba(0, 0, 0, 0.1);
+	
 }
     </style>
     {% endblock %}
@@ -78,10 +78,9 @@
     <section>
         <div class="container">
             <div class="content">
-                <h1 class="h1er">User Accounts</h1><br><br>
-
                 <!-- Beautify user ID, first name, and last name -->
                 <div class="user-details">
+                    <h1>User Accounts</h1><br>
                     <h3 >User ID: {{ user.username }}</h3>
                     <h3 >{{ request.user.profile.firstname }} {{ request.user.profile.lastname }}</h3>
                 </div>
