@@ -1,0 +1,141 @@
+.testimonial {
+	display: grid;
+	grid-template-columns: 36vw 40vw;
+	grid-gap: 0 60px;
+	justify-content: center;
+	align-items: center;
+	margin: 90px 8%;
+	font-family: 'Abhaya Libre Extrabold', sans-serif;
+}
+
+.testimonial-image img {
+	width: 100%;
+	margin-top: 70px;
+	margin-left: 7px;
+}
+
+.testimonial-text {
+	display: grid;
+	margin-right: 20px;
+}
+
+.testimonial h3, h2, p, label {
+	color: #183b56;
+}
+
+.testimonial h3 {
+	font-size: 20px;
+	font-weight: 700;
+	margin-top: 50px;
+}
+
+.testimonial h2 {
+	font-size: 32px;
+	font-weight: 700;
+	margin-bottom: 20px;
+}
+
+.testimonial p {
+	font-weight: 400;
+	font-size: 18px;
+}
+
+.c-logo {
+	height: 30px;
+	margin: 25px 0;
+}
+
+.h3-text {
+	font-size: 20px;
+	font-weight: 700;
+}
+
+.position {
+	height: fit-content;
+	font-size: 12px;
+	font-weight: 400;
+	margin-left: 40px;
+}
+
+.design-profesionals-image {
+	margin-top: 15%;
+}
+
+
+.marketers {
+	display: block;
+	margin-top: 0;
+	margin-bottom: 130px;
+}
+
+.marketers-image img {
+	float: right;
+	margin-top: 10px;
+	width: 40%;
+	margin-left: 7px;
+}
+
+.marketers-text {
+	width: 40%;
+	margin-right: 60px;
+	display: grid;
+}
+
+@media (max-width:1100px) {
+	.marketers-image img{
+		margin-top: 50px;
+	}
+}
+
+@media (max-width:1000px) {
+	.marketers-image img{
+		margin-top: 100px;
+	}
+}
+
+@media (max-width:840px) {
+	.testimonial {
+		display: grid;
+		grid-template-columns: 80vw;
+	}
+
+	.marketers-image img {
+		float: none;
+	}
+
+	.marketers-text, .marketers-image img {
+		width: 80vw;
+	}
+}
+
+
+.container {
+    display: flex;
+    justify-content: space-between; /* This will create space between the image and text */
+    align-items: center; /* Vertically center the items */
+}
+
+.image img {
+    width: 400px; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+	margin-left: 300px;
+	margin-top: 70px;
+}
+
+
+
+.text {
+    flex: 1; /* Take remaining space */
+	margin-left: 160px;
+	font-size: 26px;
+	font-family: 'Abhaya Libre Extrabold', sans-serif;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    margin-bottom: 10px; /* Adjust this value to control the space between each list item */
+}
