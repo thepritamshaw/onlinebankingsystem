@@ -27,10 +27,6 @@ nav {
 	align-items: center;
 }
 
-.titlecontainer {
-	display: flex;
-	width: 545px;
-}
 
 .nav-and-sign {
 	display: flex;
@@ -60,12 +56,12 @@ nav {
 .dropdown-menu {
 	display: none;
 	position: absolute;
-	margin-top: 13px;
+	/* margin-top: 13px; */
 	width: 180px;
 }
 
 .dropdown-menu li {
-	padding: 13px 20px;
+	padding: 0px 20px;
 	background-color: #fff;
 }
 
@@ -128,54 +124,3 @@ body {
   margin: 0;
   padding: 0;
 }
-
-
-
-/* form */
-
-form {
-	margin: 20px auto;
-	width: 80%;
-	max-width: 600px;
-	border: 1px solid #ccc;
-	padding: 20px;
-	border-radius: 5px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	}
-
-	.input {
-	margin-top: 10px;
-	font-weight: bold;
-	}
-
-	p.input {
-		margin-top: 1rem;
-		margin-bottom: 0;
-	}
-
-	select, input[type="text"], input[type="number"], input[type="password"], input[type="email"], button {
-	width: 100%;
-	padding: 10px;
-	margin-top: 5px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	box-sizing: border-box;
-	font-size: 16px;
-	}
-
-	button, .button {
-	width: 100%;
-	padding: 10px;
-	margin-top: 5px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	box-sizing: border-box;
-	font-size: 16px;
-	background-color: #007bff;
-	color: #fff;
-	cursor: pointer;
-	}
-
-	button:hover, .button:hover {
-	background-color: #0056b3;
-	}

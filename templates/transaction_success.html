@@ -12,6 +12,12 @@
 			h1 {
 				font-size: 225%;
 			}
+			.content {
+				max-width: 50%;
+				box-shadow: 5px 10px 10px rgba(2, 128, 144, 0.2);
+				display: block;
+				margin: 0 auto;
+			}
 		</style>
 	{% endblock %}
 </head>
@@ -35,8 +41,8 @@
 				<h4>{{ transaction.sender_name }}</h4>
 				<p>NeoWave Bank - {{ sender_account_number }}</p>
 				<br>
-				<p>Paid at {{ transaction.timestamp }} <br>Bank Ref No: {{ transaction.bank_reference_no }}</p>
-				<a href="{% url 'useraccounts' %}">Back to User Accounts</a>
+				<p>Paid at {{ transaction.timestamp }} <br>Bank Ref No: {{ transaction.bank_reference_no }}</p><br>
+				<a href="{% url 'useraccounts' %}">Back to User Accounts</a><br><br>
 			</div>
 		</div>
 	</section>

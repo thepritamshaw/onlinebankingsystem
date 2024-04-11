@@ -1,130 +1,21 @@
 {% extends 'base.html' %}
+{% load static %}
 <head>
 	{% block title %}
 	<title>Cheques - NeoWave Bank</title>
 	{% endblock %}
 
 	{% block stylecontent %}
+	<link href="{% static 'css/modal.css' %}" rel="stylesheet">
+	<link href="{% static 'css/animation.css' %}" rel="stylesheet">
+	<link href="{% static 'css/form.css' %}" rel="stylesheet">
+	<link href="{% static 'css/table.css' %}" rel="stylesheet">
+	<link href="{% static 'css/style1.css' %}" rel="stylesheet">
+
 		<style>
 			.input {
 				margin-bottom: 1rem;
 			}
-
-			.modal {
-				display: none;
-				position: fixed;
-				z-index: 1;
-				left: 0;
-				top: 0;
-				width: 100%;
-				height: 100%;
-				overflow: auto;
-				background-color: rgba(0, 0, 0, 0.4);
-			}
-
-			.modal-content {
-				background-color: #fefefe;
-				margin: 15% auto;
-				padding: 20px;
-				border: 1px solid #888;
-				width: 60%;
-			}
-
-			.close {
-				color: #aaa;
-				float: right;
-				font-size: 28px;
-				font-weight: bold;
-			}
-
-			.close:hover,
-			.close:focus {
-				color: black;
-				text-decoration: none;
-				cursor: pointer;
-			}
-
-			.cleared {
-				color: green;
-			}
-
-			.pending {
-				color: rgb(233, 136, 0);
-			}
-
-			.stopped {
-				color: red;
-			}
-			.login {
-						display: grid;
-  overflow: hidden;
-  background-color: white;
-  padding: 40px 30px 30px 30px;
-  border-radius: 10px;
-  
-  position: relative;
-  width: 400px;
-  transition: transform 300ms, box-shadow 300ms;
-  box-shadow: 5px 10px 10px rgba(2, 128, 144, 0.2);
-  
-}
-  .login::before, .login::after {
-    content: '';
-    position: absolute;
-    width: 600px;
-    height: 600px;
-    border-top-left-radius: 40%;
-    border-top-right-radius: 45%;
-    border-bottom-left-radius: 35%;
-    border-bottom-right-radius: 40%;
-    z-index: -1;
-  }
-  .login::before {
-    left: 14%;
-    bottom: -55%;
-    background-color: rgba(69, 105, 144, 0.15);
-    animation: wawes 6s infinite linear;
-  }
-  .login::after {
-    left: 23%;
-    bottom: -72%;
-    background-color: rgba(26, 228, 255, 0.2);
-    animation: wawes 7s infinite;
-  }
-  .login > input {
-    font-family: 'Asap', sans-serif;
-    display: block;
-    border-radius: 5px;
-    font-size: 16px;
-    width: 100%;
-    border: 10;
-    padding: 10px 10px;
-    margin: 15px -10px;
-  }
-  .login > button {
-    font-family: 'Asap', sans-serif;
-    cursor: pointer;
-    color: #fff;
-    font-size: 16px;
-    text-transform: uppercase;
-    border: 0;
-    padding: 10px 0;
-    margin-top: 10px;
-    margin-left: -5px;
-    border-radius: 5px;
-    background-color: rgb(91, 129, 244);
-    transition: background-color 300ms;
-  }
-
-@keyframes wawes {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 		</style>
 	{% endblock %}
 </head>
@@ -134,7 +25,7 @@
 		<div class="container">
 			<div class="content">
 				<h1>Cheque Details</h1>
-				<form id="account_form" method="GET" action="{% url 'cheque_details' %}" class="login">
+				<form id="account_form" method="GET" action="{% url 'cheque_details' %}" class="form">
 					<p class="input">Select Account</p>
 					<select name="account_select" id="account_select" onchange="selectAccount()">
 						<option value="" {% if not selected_account %}selected{% endif %}>-</option>
@@ -174,22 +65,20 @@
 				</table>
 
 				<div id="statusChangeModal" class="modal">
-					<div class="modal-content">
-						<span class="close" onclick="closeModal()">&times;</span>
-						<form id="statusChangeForm">
-							{% csrf_token %}
-							<input type="hidden" id="chequeNumber" name="cheque_number" value="">
-								<h2>Change Cheque Status</h2><br>
-								<label for="stopReason">Stop Reason:</label>
-								<select id="stopReason" name="stop_reason">
-									<option value="">Select Stop Reason</option>
-									{% for choice in stop_reason_choices %}
-										<option value="{{ choice.0 }}">{{ choice.1 }}</option>
-									{% endfor %}
-								</select><br><br>
-								<button type="button" onclick="stopCheque()">Stop Cheque</button>
-						</form>
-					</div>
+					<form id="statusChangeForm" class="animation">
+						<div><span class="close" onclick="closeModal()">&times;</span><br></div>
+						{% csrf_token %}
+						<input type="hidden" id="chequeNumber" name="cheque_number" value="">
+							<h2>Change Cheque Status</h2><br>
+							<label for="stopReason">Stop Reason:</label>
+							<select id="stopReason" name="stop_reason">
+								<option value="">Select Stop Reason</option>
+								{% for choice in stop_reason_choices %}
+									<option value="{{ choice.0 }}">{{ choice.1 }}</option>
+								{% endfor %}
+							</select><br><br>
+							<button type="button" onclick="stopCheque()">Stop Cheque</button>
+					</form>
 				</div>
 				
 				
