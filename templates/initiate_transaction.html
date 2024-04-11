@@ -1,84 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
 <head>
 	{% block title %}
 	<title>Fund Transfer- NeoWave Bank</title>
 	{% endblock %}
-
 	{% block stylecontent %}
-		<style>
-			h5 {
-			color: red;
-			}
-			.login {
-						display: grid;
-  overflow: hidden;
-  background-color: white;
-  padding: 40px 30px 30px 30px;
-  border-radius: 10px;
-  
-  position: relative;
-  width: 400px;
-  transition: transform 300ms, box-shadow 300ms;
-  box-shadow: 5px 10px 10px rgba(2, 128, 144, 0.2);
-  
-}
-  .login::before, .login::after {
-    content: '';
-    position: absolute;
-    width: 600px;
-    height: 600px;
-    border-top-left-radius: 40%;
-    border-top-right-radius: 45%;
-    border-bottom-left-radius: 35%;
-    border-bottom-right-radius: 40%;
-    z-index: -1;
-  }
-  .login::before {
-    left: 14%;
-    bottom: -55%;
-    background-color: rgba(69, 105, 144, 0.15);
-    animation: wawes 6s infinite linear;
-  }
-  .login::after {
-    left: 23%;
-    bottom: -72%;
-    background-color: rgba(26, 228, 255, 0.2);
-    animation: wawes 7s infinite;
-  }
-  .login > input {
-    font-family: 'Asap', sans-serif;
-    display: block;
-    border-radius: 5px;
-    font-size: 16px;
-    width: 100%;
-    border: 10;
-    padding: 10px 10px;
-    margin: 15px -10px;
-  }
-  .login > button {
-    font-family: 'Asap', sans-serif;
-    cursor: pointer;
-    color: #fff;
-    font-size: 16px;
-    text-transform: uppercase;
-    border: 0;
-    padding: 10px 0;
-    margin-top: 10px;
-    margin-left: -5px;
-    border-radius: 5px;
-    background-color: rgb(91, 129, 244);
-    transition: background-color 300ms;
-  }
-
-@keyframes wawes {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-		</style>
+		<link href="{% static 'css/form.css' %}" rel="stylesheet">
 	{% endblock %}
 </head>
 <body>
@@ -86,7 +13,7 @@
 	<section>
 		<div class="container">
 			<div class="content">
-				<form method="post" class="login">
+				<form method="post" class="form">
 				<h1 class="h1er">Fund Transfer</h1><br>
 
 				{% for message in messages %}
@@ -110,9 +37,9 @@
 					<p class="input">Password:</p>
 					<input type="password" name="password" required>
 					<br><br>
-					<button type="submit">Initiate Transaction</button>
+					<button type="submit">Initiate Transaction</button><br><br>
+					<a href="{% url 'useraccounts' %}">Back to User Accounts</a>
 				</form>
-				<a href="{% url 'useraccounts' %}">Back to User Accounts</a>
 			</div>
 		</div>
 	</section>

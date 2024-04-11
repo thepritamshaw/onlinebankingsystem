@@ -1,0 +1,11 @@
+.animation {
+	width: 400px;
+}
+
+.animation::before {
+	left: 14%;
+}
+
+.animation::after {
+	left: 23%;
+}

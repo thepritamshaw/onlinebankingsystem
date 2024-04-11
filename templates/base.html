@@ -17,21 +17,12 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 	
 	<link href="{% static 'css/style.css' %}" rel="stylesheet">
-	<link href="{% static 'css/table.css' %}" rel="stylesheet">
+	<link href="{% static 'css/style1.css' %}" rel="stylesheet">
+	<link href="{% static 'css/nav1.css' %}" rel="stylesheet">
 	{% block stylecontent %}
 
 	{% endblock %}
-	<style>
-		.neumorphic-header {
-			position: relative;
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			padding: 10px 20px;
-			background-color: #ffffff;
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-		}
-	
+	<style>	
 		.nav-and-sign {
 			display: flex;
 			align-items: center;
@@ -90,6 +81,7 @@
 		
 		.blue-button-white-text:hover {
 			background-color: #0061ad;
+			color: #fff;
 			border: 1px solid #0061ad;
 		}
 		.dropdown-menu .blue-button-white-text {
@@ -102,23 +94,24 @@
 
 
 	<header id="header" class="neumorphic-header">
-		<h1 class="logo"><a href="/">NeoWave</a></h1>
-		
-		{% if user.is_authenticated %}
-		<div class="dropdown nav-menu-item">
-			<img src="{% static 'assets/usericon.png' %}" alt="Profile" class="service-icon dropdown">
-			<ul class="dropdown-menu">
-				<li><a href="/userdetails">Update&nbsp;Profile</a></li>
-				<li><a class="blue-button-white-text logout" href="/logout">Logout</a></li>
-			</ul>
-		</div>
-		{% else %}
-		<div class="sign">
-			<a href="/login"
-				class="signin white-button-blue-text">Sign&nbsp;in</a>
-			<a href="/register"
-				class="signup blue-button-white-text">Sign&nbsp;up</a>
-		{% endif %}
+		<div class="navcontainer">
+			<h1 class="logo"><a href="/">NeoWave</a></h1>
+			{% if user.is_authenticated %}
+			<div class="dropdown nav-menu-item">
+				<img src="{% static 'assets/usericon.png' %}" alt="Profile" class="service-icon dropdown">
+				<ul class="dropdown-menu">
+					<li><a href="/userdetails">Update&nbsp;Profile</a></li>
+					<li><a class="blue-button-white-text" href="/logout">Logout</a></li>
+				</ul>
+			</div>
+			{% else %}
+			<div class="sign">
+				<a href="/login"
+					class="signin white-button-blue-text">Sign&nbsp;in</a>
+				<a href="/register"
+					class="signup blue-button-white-text">Sign&nbsp;up</a>
+			</div>
+			{% endif %}
 		</div>
 	</header>
 	<br>

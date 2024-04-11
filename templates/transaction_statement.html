@@ -1,24 +1,17 @@
 {% extends 'base.html' %}
+{% load static %}
 <head>
 	{% block title %}
 	<title>Account Statement - NeoWave Bank</title>
 	{% endblock %}
 
 	{% block stylecontent %}
+	<link href="{% static 'css/table.css' %}" rel="stylesheet">
+	<link href="{% static 'css/style1.css' %}" rel="stylesheet">
 		<style>
-			.received {
-				color: green;
-			}
-
-			.sent {
-				color: red;
-			}
 			h1 {
-            text-align: center; /* Center the h1 element */
-        }
-		.aem{
-			margin-left: 24px;
-		}
+				text-align: center;
+			}
 		</style>
 	{% endblock %}
 </head>
@@ -28,14 +21,14 @@
 		<div class="container">
 			<div class="content">
 				<h1>Account Statement</h1><br><br>
-				<div class="aem"><h3>User ID: {{ request.user.username }}</h3>
+				<h3>User ID: {{ request.user.username }}</h3>
 				<h3>{{ request.user.profile.firstname }} {{ request.user.profile.lastname }}</h3>
 				<h3>{{ request.user.profile.street }}, {{ request.user.profile.city }}, {{ request.user.profile.pincode }}</h3>
 				<h3>Mobile No: {{ request.user.profile.mobilenumber }}</h3>
 				{% for account_number, account_data in transaction_data.items %}
 				<br><br><br>
 				<h3>Account: {{ account_number }}</h3>
-				<h3>IFSC: {{ account_data.ifsc }}</h3><br></div>
+				<h3>IFSC: {{ account_data.ifsc }}</h3><br>
 				<table>
 					<thead>
 						<tr>
