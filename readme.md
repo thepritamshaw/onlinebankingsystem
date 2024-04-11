@@ -65,4 +65,4 @@ This project aims to develop a secure and convenient online banking system that 
 
     Open your web browser and navigate to http://127.0.0.1:8000/ (or your local server address if different). You should now be able to access the online banking system and start using its features.
 
-**Note:** This is a basic setup for development purposes. In a production environment, you would need to configure a web server (e.g., Apache, Nginx) to serve the application and implement additional security measures.
+**Note:** This is a basic setup for development purposes. In a production environment, we would need to configure a web server (e.g., Apache, Nginx) to serve the application and implement additional security measures.
