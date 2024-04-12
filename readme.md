@@ -41,12 +41,11 @@ This project aims to develop a secure and convenient online banking system that 
 1. **Prerequisites:**
     * Ensure you have Python and Django installed on your system. You can refer to the official documentation for installation instructions:
         * Python: [https://www.python.org/downloads/](https://www.python.org/downloads/)
-        * Django: [https://docs.djangoproject.com/en/5.0/](https://docs.djangoproject.com/en/5.0/)
 
 2. **Clone the Repository:**
 
     ```bash
-    git clone https://github.com/prakharsatyam/onlinebankingsystem.git
+    git clone https://github.com/thepritamshaw/onlinebankingsystem.git
     ```
 
 3. **Navigate to the Project Directory:**
@@ -55,13 +54,18 @@ This project aims to develop a secure and convenient online banking system that 
     cd onlinebankingsystem
     ```
 
-4. **Run the Development Server:**
+4. **Install project dependencies:**
+
+    ```pip install -r requirements.txt
+    ```
+
+5. **Run the Development Server:**
 
     ```bash
     python manage.py runserver
     ```
 
-5. **Access the Online Banking System:**
+6. **Access the Online Banking System:**
 
     Open your web browser and navigate to http://127.0.0.1:8000/ (or your local server address if different). You should now be able to access the online banking system and start using its features.
 
