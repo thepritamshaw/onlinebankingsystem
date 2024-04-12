@@ -39,7 +39,7 @@ This project aims to develop a secure and convenient online banking system that 
 **How to Run the Project (Development Setup)**
 
 1. **Prerequisites:**
-    * Ensure you have Python and Django installed on your system. You can refer to the official documentation for installation instructions:
+    * Ensure you have Python installed on your system. You can refer to the official documentation for installation instructions:
         * Python: [https://www.python.org/downloads/](https://www.python.org/downloads/)
 
 2. **Clone the Repository:**
