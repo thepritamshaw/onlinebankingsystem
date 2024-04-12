@@ -17,88 +17,20 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 	
 	<link href="{% static 'css/style.css' %}" rel="stylesheet">
-	<link href="{% static 'css/style1.css' %}" rel="stylesheet">
-	<link href="{% static 'css/nav1.css' %}" rel="stylesheet">
+	<link href="{% static 'css/nav.css' %}" rel="stylesheet">
 	{% block stylecontent %}
-
 	{% endblock %}
-	<style>	
-		.nav-and-sign {
-			display: flex;
-			align-items: center;
-		}
-		.nav-menu-item {
-			margin: 0;
-			padding: 10px;
-		}
-	
-		.service-icon {
-			margin: 0 ;
-			padding: 0;
-			width: 30px;
-			height: 30px;
-			cursor: pointer;
-		}
-	
-		.dropdown-menu {
-			position: absolute;
-			top: 100%;
-			right: 0;
-			background-color: #ffffff;
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-			list-style: none;
-			padding: 10px;
-			margin: 0;
-			display: none;
-		}
-	
-		.dropdown-menu li {
-			list-style: none;
-		}
-	
-		.dropdown-menu li a {
-			text-decoration: none;
-			display: block;
-			padding: 8px 0px; /* Added padding */
-			color: #183b56; /* Changed text color */
-			text-align: center;
-		}
-	
-		.blue-button-white-text {
-			background-color: #2294ed;
-			border: 1px solid #2294ed;
-			border-radius: 4px;
-			padding: 12px 24px;
-			font-weight: 700;
-			color: #fff;
-		}
-		
-		.dropdown:hover .dropdown-menu {
-			color: #183b56;
-			display: block;
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added box shadow */
-		}
-		
-		.blue-button-white-text:hover {
-			background-color: #0061ad;
-			color: #fff;
-			border: 1px solid #0061ad;
-		}
-		.dropdown-menu .blue-button-white-text {
-        color: #fff;
-    }
-	</style>
 </head>
 
 <body>
 
 
-	<header id="header" class="neumorphic-header">
+	<header id="header">
 		<div class="navcontainer">
 			<h1 class="logo"><a href="/">NeoWave</a></h1>
 			{% if user.is_authenticated %}
-			<div class="dropdown nav-menu-item">
-				<img src="{% static 'assets/usericon.png' %}" alt="Profile" class="service-icon dropdown">
+			<div class="dropdown">
+				<img src="{% static 'assets/usericon.png' %}" alt="Profile" class="service-icon">
 				<ul class="dropdown-menu">
 					<li><a href="/userdetails">Update&nbsp;Profile</a></li>
 					<li><a class="blue-button-white-text" href="/logout">Logout</a></li>
@@ -107,9 +39,9 @@
 			{% else %}
 			<div class="sign">
 				<a href="/login"
-					class="signin white-button-blue-text">Sign&nbsp;in</a>
+					class="white-button-blue-text">Sign&nbsp;in</a>
 				<a href="/register"
-					class="signup blue-button-white-text">Sign&nbsp;up</a>
+					class="blue-button-white-text">Sign&nbsp;up</a>
 			</div>
 			{% endif %}
 		</div>

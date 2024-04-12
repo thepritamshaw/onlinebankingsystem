@@ -1,126 +1,66 @@
 * {
-  margin: 0;
-  padding: 0;
-  text-decoration: none;
-  list-style: none;
-  font-weight: 500;
-  letter-spacing: .5px;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+	list-style: none;
+	font-weight: 500;
+	letter-spacing: .5px;
+	font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Raleway", sans-serif;
-}
-
-#header .logo {
-  font-size: 28px;
-  line-height: 1;
-  font-weight: 300;
-  letter-spacing: 0.5px;
-  font-family: "Poppins", sans-serif;
-}
-
-nav {
-	display: flex;
-	padding: 25px 20px 0 0%;
-	justify-content: space-between;
-	align-items: center;
-}
-
-
-.nav-and-sign {
-	display: flex;
-	align-items: center;
-	background-color: #fff;
-	color: #fff;
-}
-
-.nav-menu {
-	display: inline-flex;
-	background-color: #fff;
-}
-
-.nav-menu-item {
-	padding: 12px 15px;
-}
-
-.nav-menu-item a, .dropdown {
-	color: #183b56;
-	position: relative;
-}
-
-.nav-menu-item a:hover, .dropdown:hover {
-	color: #2294ed;
-}
-
-.dropdown-menu {
-	display: none;
-	position: absolute;
-	/* margin-top: 13px; */
-	width: 180px;
-}
-
-.dropdown-menu li {
-	padding: 0px 20px;
-	background-color: #fff;
-}
-
-.dropdown:hover .dropdown-menu {
-	display: block;
-}
-
-
-.sign {
-	margin-left: 25px;
-	display: flex;
-	align-items: center;
-	background-color: #fff;
-}
-
-.white-button-blue-text {
-	padding: 12px 24px;
-	color: #183b56;
-	border: 1px solid #b9cde4;
-	border-radius: 4px;
-	margin: 0 10px;
-	font-weight: 700;
-}
-
-.signin {
-	background-color: #fff;
-}
-
-.white-button-blue-text:hover {
-	border: 1px solid #2294ed;
-	color: #2294ed;
-}
-
-.blue-button-white-text {
-	background-color: #2294ed;
-	border: 1px solid #2294ed;
-	border-radius: 4px;
-	padding: 12px 24px;
-	font-weight: 700;
-	color: #fff;
-}
-
-.blue-button-white-text:hover {
-	background-color: #0061ad;
-	border: 1px solid #0061ad;
-}
-
-a {
-  color: #2487ce;
-  text-decoration: none;
-}
-
-a:hover {
-  color: #469fdf;
+	font-family: "Raleway", sans-serif;
 }
 
 body {
-  font-family: "Open Sans", sans-serif;
-  color: #444;
-  margin: 0;
-  padding: 0;
+	font-family: "Open Sans", sans-serif;
+	color: #444;
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	color: #2487ce;
+	text-decoration: none;
+}
+  
+a:hover {
+	color: #469fdf;
+}
+.container {
+	display: block;
+	max-width: 90%;
+	margin: 0 auto;
+}
+
+
+
+/* green red in statement & cheque */
+.received, .cleared {
+	color: green;
+}
+
+.sent, .stopped {
+	color: red;
+}
+
+.pending {
+	color: rgb(233, 136, 0);
+}
+
+
+/* index only for time being */
+
+.open-account {
+	background-color: #2487CE;
+	border: 1px solid #2487CE;
+	border-radius: 4px;
+	padding: 12px 24px;
+	font-weight: 700;
+	color: #fff;
+}
+
+.open-account:hover {
+	background-color: #0061ad;
+	border: 1px solid #0061ad;
 }

@@ -1,0 +1,129 @@
+.navcontainer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 90%;
+}
+
+#header {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 10px 0;
+	background-color: #ffffff;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#header .logo {
+	font-size: 28px;
+	line-height: 1;
+	font-weight: 300;
+	letter-spacing: 0.5px;
+	font-family: "Poppins", sans-serif;
+}
+
+.dropdown {
+	margin: 0;
+	padding: 10px;
+}
+
+.dropdown a:hover, .dropdown:hover {
+	color: #2294ed;
+}
+
+.dropdown:hover .dropdown-menu {
+	color: #183b56;
+	display: block;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown a, .dropdown {
+	color: #183b56;
+	position: relative;
+}
+
+.dropdown a:hover, .dropdown:hover {
+	color: #2294ed;
+}
+
+.service-icon {
+	margin: 0 ;
+	padding: 0;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+}
+
+.dropdown-menu {
+	position: absolute;
+	top: 100%;
+	right: 0;
+	background-color: #ffffff;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	list-style: none;
+	display: none;
+	width: 180px;
+	border-radius: 8px;
+	z-index: 3;
+}
+
+.dropdown-menu li {
+	list-style: none;
+	padding: 0px 10px;
+	background-color: #fff;
+}
+
+.dropdown-menu li a {
+	text-decoration: none;
+	display: block;
+	padding: 8px 0px;
+	color: #183b56;
+	text-align: center;
+	font-weight: 700;
+}
+
+/* Logout link */
+.dropdown:hover .dropdown-menu li:nth-child(2) a:hover {
+  color: white;
+}
+
+.dropdown-menu li:nth-child(2) a {
+	color: #fff;
+}
+
+.sign {
+	display: flex;
+	align-items: center;
+	background-color: #fff;
+}
+
+.white-button-blue-text {
+	padding: 12px 24px;
+	color: #183b56;
+	border: 1px solid #b9cde4;
+	border-radius: 4px;
+	margin: 0 10px;
+	font-weight: 700;
+}
+
+.white-button-blue-text:hover {
+	border: 1px solid #2294ed;
+	color: #2294ed;
+}
+
+
+.blue-button-white-text {
+	background-color: #2294ed;
+	border: 1px solid #2294ed;
+	border-radius: 4px;
+	padding: 12px 24px;
+	font-weight: 700;
+	color: #fff;
+}
+
+.blue-button-white-text:hover  {
+	background-color: #0061ad;
+	border: 1px solid #0061ad;
+	color: #ffff;
+}
