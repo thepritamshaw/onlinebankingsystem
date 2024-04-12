@@ -56,7 +56,8 @@ This project aims to develop a secure and convenient online banking system that 
 
 4. **Install project dependencies:**
 
-    ```pip install -r requirements.txt
+    ```bash
+    pip install -r requirements.txt
     ```
 
 5. **Run the Development Server:**
