@@ -47,20 +47,3 @@ a:hover {
 .pending {
 	color: rgb(233, 136, 0);
 }
-
-
-/* index only for time being */
-
-.open-account {
-	background-color: #2487CE;
-	border: 1px solid #2487CE;
-	border-radius: 4px;
-	padding: 12px 24px;
-	font-weight: 700;
-	color: #fff;
-}
-
-.open-account:hover {
-	background-color: #0061ad;
-	border: 1px solid #0061ad;
-}

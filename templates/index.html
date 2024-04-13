@@ -5,371 +5,135 @@
 	<title>NeoWave Bank-Personal Banking & Netbanking Services</title>
 	{% endblock %}
 	{% block stylecontent %}
-	<style>
-		.hero {
-	margin: top 5px; ;
-	text-align: center; /* Center align text */
-	padding: 50px 20px; /* Adjust padding as needed */
-	color: black; /* Text color */
-	width: 80%; /* Specify a fixed width */
-	margin: 50px auto; /* Center the section horizontally */
-}
-.herobtn {
-	display: block; /* Ensure button takes up full width */
-	width: 225px; /* Adjust width as needed */
-	margin: 39px auto; /* Center the button horizontally */
-	padding: 10px 20px; /* Adjust padding as needed */
-	border: none; /* Remove default button border */
-	border-radius: 20px; /* Add rounded corners */
-	background-color: #007bff; /* Button background color */
-	color: #fff; /* Button text color */
-	font-size: 16px; /* Button font size */
-	cursor: pointer; /* Change cursor to pointer on hover */
-	text-decoration: none; /* Remove default button underline */
-}
-
-.herobtn:hover {
-	background-color: #0056b3; /* Change background color on hover */
-}
-
-		.services {
-			display: flex;
-			text-align: center;
-			padding: 50px 0;
-		}
-		.icon {
-			width: 64px;
-			height: 64px;
-		}
-
-		.service-item {
-			width: 200px;
-			height: 125px;
-			flex: 0 0 calc(10% - 20px);
-			margin: 0 10px 20px;
-			padding: 20px;
-			background-color:#f0f3f8;
-			border-radius: 8px;
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-			color: #183b56;
-		}
-
-		@media (max-width: 768px) {
-			.service-item {
-				flex-basis: calc(40% - 20px);
-			}
-		}
-
-		@media (max-width: 576px) {
-			.service-item {
-				flex-basis: calc(100% - 20px);
-			}
-		}
-
-		.welcome-div {
-			background-color: #f0f3f8;
-			padding: 50px;
-			border-radius: 10px;
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-			text-align: center;
-			color: #183b56;
-			font-family: "Inter", sans-serif;
-			margin: 0 auto;
-			max-width: 600px;
-			margin: 10px auto 0;
-		}
-
-		.welcome-div h2 {
-			margin-bottom: 20px;
-		}
-
-		.welcome-div p {
-			line-height: 1.5;
-		}
-
-		.service-grid {
-			display: flex;
-		flex-wrap: wrap;
-   		justify-content: center;
-		gap: 24px;
-		text-align: center;
-		padding: 0px 250px;
-		}
-
-		.service-item {
-			border-radius: 20px;
-			padding: 20px;
-			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-			backdrop-filter: blur(10px);
-			transition: transform 0.3s ease;
-		}
-
-		.service-item:hover {
-			transform: translateY(-10px);
-		}
-
-		.glass {
-			border-radius: 10px;
-			border: 1px solid rgba(255, 255, 255, 0.18);
-			backdrop-filter: blur(5px);
-		}
-		/* General Variables */
-		body {
-  margin: 0 auto;
-  padding: 0;
-  font-size: 16px;
-  backdrop-filter: blur(5px);
-  background-position: 66% 50%; }
-
-section {
-  display: block; }
-
-h1, h2, h3, h4, h5, h6, ul, li {
-  margin: 0;
-  padding: 0; }
-
-h1 {
-  font-family: Montserrat, sans-serif;
-  font-weight: 700;
-  text-transform: uppercase; }
-
-h2 {
-  font-family: Montserrat, sans-serif;
-  font-size: 1.875em;
-  font-weight: 700;
-  text-transform: uppercase; }
-
-h3 {
-  font-family: 'Kaushan Script', cursive;
-  font-size: 1.5em;
-  font-weight: 400; }
-
-h4 {
-  font-family: Montserrat, sans-serif;
-  font-size: 0.875em;
-  font-weight: 400;
-  text-transform: uppercase; }
-
-p {
-  line-height: 150%;
-  font-family: Roboto, sans-serif;
-  font-size: 0.9375em;
-  color: #999; }
-
-li {
-  list-style-type: none; }
-
-a {
-  text-decoration: none; }
-
-.bg-wrapper {
-  width: 100%;
-  height: 100%;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)); }
-
-.section-header {
-  padding-top: 5.625em;
-  text-align: center; }
-  .section-header h3 {
-	margin-bottom: 0.5em; }
-
-.line-red {
-  display: block;
-  width: 4em;
-  height: 0.1875em;
-  margin: 0 auto;
-  background: #f38181; }
-
-.main-header {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
-  font-family: Montserrat, sans-serif;
-  color: #fff;
-  background: transparent; }
-  .main-header .header-wrapper {
-	display: block;
-	width: 70%;
-	margin: 0 auto;
-	padding-top: 1em; }
-	.main-header .header-wrapper .main-logo {
-	  float: left;
-	  font-weight: 700;
-	  font-size: 1.875em; }
-
-
-
-
-	</style>
-	<link href="{% static 'css/getstarted.css' %}" rel="stylesheet">
-	<link href="{% static 'css/6-cards.css' %}" rel="stylesheet">
-	<link href="{% static 'css/nav.css' %}" rel="stylesheet">
-	<link href="{% static 'css/start-testing-today.css' %}" rel="stylesheet">
-	<link href="{% static 'css/testimonials.css' %}" rel="stylesheet">
+	<link href="{% static 'css/index-home.css' %}" rel="stylesheet">
+	<link href="{% static 'css/index-login.css' %}" rel="stylesheet">
+	<link href="{% static 'css/form.css' %}" rel="stylesheet">
+	<link href="{% static 'css/sub-footer.css' %}" rel="stylesheet">
 	{% endblock %}
 </head>
 <body>
 	{% block bodycontent %}
 	{% if user.is_authenticated %}
-
-		
 	<div class="welcome-div">
-		<h1>Welcome, {{ user.username }}</h1><br>
-		<p>Thank you for choosing NeoWave Bank for your banking needs.</p>
+		<h1>Welcome, {{ user.username }}</h1>
 	</div>
-	<br><br>
 	<section class="services">
-		<div>
-			<br><h2 style="text-align: center;">Our Services</h2><br><br>
-			<div class="service-grid">
-				<a href="/initiate_transaction">
-				<div class="service-item">
-					<img class="icon" src="../static/assets/moneyicon.png" alt="">
-					<h3>Money Transfer</h3>
-				</div></a>
+			<br><h2 style="text-align: center;">Our Services</h2>
+			<div class="service-background">
+				<div class="service-grid">
+					<a href="/initiate_transaction">
+					<div class="service-item">
+						<img class="icon" src="../static/assets/moneyicon.png" alt="">
+						<h3>Money Transfer</h3>
+					</div></a>
 
-				<a href="/useraccounts">
-				<div class="service-item">
-					<img class="icon" src="../static/assets/bankicon.png" alt="">
-						<h3>Accounts</h3>
-				</div></a>
+					<a href="/useraccounts">
+					<div class="service-item">
+						<img class="icon" src="../static/assets/bankicon.png" alt="">
+							<h3>Accounts</h3>
+					</div></a>
 
-				<a href="/transaction_history">
-				<div class="service-item">
-					<img class="icon" src="../static/assets/transaction.png" alt="">
-					<h3>Transaction History</h3>
-				</div></a>
+					<a href="/transaction_history">
+					<div class="service-item history">
+						<img class="icon" src="../static/assets/transaction.png" alt="">
+						<h3>Transaction History</h3>
+					</div></a>
 
-				<a href="/cheque_details">
-				<div class="service-item">
-					<img class="icon" src="../static/assets/cheque.png" alt="">
-					<h3>Cheques</h3>
-				</div></a>
+					<a href="/cheque_details">
+					<div class="service-item">
+						<img class="icon" src="../static/assets/cheque.png" alt="">
+						<h3>Cheques</h3>
+					</div></a>
 
-				<a href="/get_statement">
-				<div class="service-item">
-					<img class="icon" src="../static/assets/money_insights.png" alt="">
-					<h3>Money Insights</h3>
-				</div></a>
+					<a href="/get_statement">
+					<div class="service-item">
+						<img class="icon" src="../static/assets/money_insights.png" alt="">
+						<h3>Money Insights</h3>
+					</div></a>
 
-				<a href="https://rbi.org.in/Scripts/Complaints.aspx">
-				<div class="service-item">
-					<img class="icon" src="../static/assets/emergency.png" alt="">
-					<h3>Emergency</h3>
-				</div></a>
+					<a href="https://rbi.org.in/Scripts/Complaints.aspx">
+					<div class="service-item">
+						<img class="icon" src="../static/assets/emergency.png" alt="">
+						<h3>Emergency</h3>
+					</div></a>
 
+				</div>
 			</div>
-		</div>
 	</section>
-
 	{% else %}
 
-	<div class="swiss" style="display: flex; flex-direction: column; align-items: center;">
-		<h2 style="margin-bottom: 8px;">For All Things Money</h2>
-		<div style="text-align: center;">
-			<p style="font-size: 24px; margin-top: 0px; margin-bottom: 60px;">
-				Manage your money with <span style="color: #2487CE;">peace of mind</span>
-			</p>
-			<a href="./register" class="blue-button-white-text getstarted" style="margin-top: 10px; border-radius: 24px;">Open Savings Account</a>
-		</div>
-		<section class="getstarted-image-text clearfix">
-			<div class="getstarted-image">
-				<img src="../static/assets/asset44.jpeg" alt="usability testing" style="width: 170%;">
+	<section class="open-account">
+		<div class="container">
+			<div class="content open-account-div">
+				<h1>FOR ALL THINGS MONEY</h1>
+				<p class="manage-money">
+					Manage your money with <span style="color: #2487CE;">peace of mind</span></p>
+				<a href="./register" class="open-account-button">Open&nbsp;Savings&nbsp;Account</a>
+				<div class="open-account-image">
+					<img src="{% static 'assets/homepage.png' %}" alt="front page">
+				</div>
+				<h1>GET A SAVINGS ACCOUNT<br>UNLIKE ANY OTHER</h1>
 			</div>
-		</section>
-	</div>
-	<div class="swiss" style="display: flex; flex-direction: column; align-items: center;">
-		<h2 style="margin-top: 80px; font-size: 44px; text-align: center;">Get a savings account<br style="line-height: 4px;">unlike any other</h2>
-	</div>
-	
-	<div class="container">
-		<div class="image">
-			<img src="../static/assets/card.png" alt="card" width="560" height="auto"> <!-- Adjust width and height as needed -->
 		</div>
-		<div class="text">
-			<ul>
-				<li>✔️ No minimum balance</li>
-				<li>✔️ Withdraw from any ATM</li>
-				<li>✔️ No hidden fees</li>
-				<li>✔️ Money insured up to ₹5 lakh</li>
-			</ul>
-		</div>
-	</div>
- <section class="six-cards">
-	<div class="swiss">
-		<h2 style="font-size: 28px; margin-top: 40px; text-align:center;margin-bottom:0px;margin-left:20px;font-family: 'Abhaya Libre Extrabold', sans-serif;">Your smart account is backed by</h2>
-	</div>
-	<div class="six-cards-element">
-		<img src="../static/assets/asset 57.png" alt="Max trust">
-		<div style="margin-bottom: 19px;">
-			<h3>Max Trust</h3>
-			<p style="margin: left 3px;">Your account is hosted on Our Bank.</p>
-		</div>
-	</div>
-	<div class="six-cards-element">
-		<img src="../static/assets/asset 58.png" alt="Max Security">
-		<div>
-			<h3>Max Security</h3>
-			<p>Which means bank-grade security and ISO and PCI compliant.</p>
-		</div>
-	</div>
-	<div class="six-cards-element">
-		<img src="../static/assets/asset 58.png" alt="Max Safety">
-		<div>
-			<h3>Max Safety</h3>
-			<p>Your money is insured up to ₹5,00,000 by DICGC.</p>
-		</div>
-	</div>
-</section>
-
-
-
-<section class="testimonials">
-	<div class="design-professionals testimonial">
-		<div class="design-profesionals-image testimonial-image">
-			<img src="../static/assets/flash.jpg" alt="flash">
-
-		</div>
-		<div class="design-professionals-text testimonial-text">
-			<h3 style="color: #2487CE;margin-bottom: 16px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">BANK IN FLASH</h3>
-			<b><h1 style="font-size: 30px;margin-bottom:20px;">Banking at the Speed of Thought: Open an Account in a Flash!</h1></b>
-			<p>Experience lightning-fast account setup in 60 seconds! Swiftly create your bank account online with ease. No paperwork, no waiting – start banking in a flash!</p>
-			
-		</div>
-	</div>
-	<div class="marketers testimonial">
-		<div class="marketers-image testimonial-image">
-			<img src="../static/assets/cashback.jpg" alt="cashback">
-		</div>
-		<div class="marketers-text testimonial-text">
-			<h3 style="color: #2487CE;margin-bottom: 16px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">HONEST REWARDS</h3>
-			<b><h1 style="font-size: 30px;margin-bottom:20px;">Earn rewards in real time.</h1></b>
-			<p>Unlock exclusive banking rewards instantly! Earn cashback on every spend and redeem effortlessly.</p>
-			
-		</div>
-	</div>
-	<br>
-	<div class="design-professionals testimonial">
-		<div class="design-profesionals-image testimonial-image" style="margin-left: 0px;">
-			<img src="../static/assets/zero balance.png" alt="Zerobalance" style="margin-left: 30px; width: 110%; height: auto;">
-
-		</div>
-		<div class="design-professionals-text testimonial-text" style="margin-left: 290px; margin-right: 0;">
-			<h3 style="color: #2487CE;margin-bottom: 16px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">SUPER TRANSPARENT</h3>
-			<b><h1 style="font-size: 30px;margin-bottom:20px;">Zero balance account with no hidden fees.</h1></b>
-			<p>Say goodbye to hidden fees and sneaky bank charges. No minimum balance. Withdraw from any ATM Transparency in fees</p>
-			
-		</div>
-	</div>
 	</section>
 
-	<section class="start-testing-today">
-		<h3>Start banking today</h3>
-		<p style=" margin-top: 3px; margin-bottom: 35px; font-size: 17px;">Join us</p>
-		<a href="./register" class="blue-button-white-text getstarted">Get
-			Started</a>
+	<section class="bank-flash">
+		<div class="container">
+			<div class="content">
+				<div class="bank-flash-div">
+					<div class="bank-flash-image">
+						<img src="{% static 'assets/zero balance.png' %}" alt="zero balance">
+					</div>
+					<div class="bank-flash-text">
+						<h3>BANK IN FLASH</h3>
+						<b><h1>Banking at the Speed of Thought: Open an Account in a Flash!</h1></b>
+						<p>Experience lightning-fast account setup in 60 seconds! Swiftly create your bank account online with ease. No paperwork, no waiting - start banking in a flash!</p>
+					</div>
+				</div>
+			</div>
+		</div>
 	</section>
+
+	<section class="welcome-gift">
+		<div class="container">
+			<div class="content">
+				<div class="welcome-gift-div">
+					<div class="welcome-gift-text">
+						<h3>EXCLUSIVE WELCOME GIFT</h3>
+						<b><h1>Welcome to Our Bank: Get Rs. 1000 as a Gift!</h1></b>
+						<p>Welcome to Our Bank! As a new user, we're thrilled to offer you an exclusive welcome gift of Rs. 1000 when you open an account with us. Take advantage of this special offer and kickstart your banking journey with us today!</p>
+					</div>
+					<div class="welcome-gift-image">
+						<img src="{% static 'assets/cashback.png' %}" alt="front page">
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<footer>
+		<div class="container">
+			<div class="sub-footer">
+				<p>Pritam Shaw</p>
+				<div class="footer-box-social">
+					<ul>
+						<li><a href="https://github.com/thepritamshaw" target="_blank"><img
+									src="{% static 'assets/github-transparent.png' %}" alt="Github"></a>
+							<div class="placeholder"></div>
+						</li>
+						<li><a href="https://www.linkedin.com/in/thepritamshaw/" target="_blank"><img
+									src="{% static 'assets/linkedin-transparent.png' %}" alt="Linkedin"></a>
+							<div class="placeholder"></div>
+						</li>
+						<li><a href="https://www.twitter.com/thepritamshaw/" target="_blank"><img
+									src="{% static 'assets/twitter-transparent.png' %}" alt="Twitter"></a>
+							<div class="placeholder"></div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>
 	{% endif %}
 	{% endblock%}
 </body>

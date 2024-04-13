@@ -1,0 +1,124 @@
+.open-account{
+	text-align: center;
+}
+.open-account h1 {
+	margin: 100px 0 10px 0;
+	font-size: 50px;
+	letter-spacing: 1.5px;
+	font-weight: 700;
+}
+.open-account p {
+	margin: 0 0 60px 0;
+	font-size: 25px;
+}
+.open-account-button {
+	background-color: #2487CE;
+	border: 1px solid #2487CE;
+	border-radius: 40px;
+	padding: 17px 35px;
+	font-weight: 700;
+	color: #fff;
+	font-size: 20px;
+}
+
+.open-account-button:hover {
+	color: #fff;
+	background-color: #0061ad;
+	border: 1px solid #0061ad;
+}
+.open-account-image {
+	 margin: 0 auto;
+	 max-width: 900px;
+	 text-align: center;
+}
+
+.open-account-image img {
+	display: block;
+	margin: 80px auto;
+	width: 90%;
+	padding: 20px;
+	border-radius: 20px;
+	border: 5px solid #000;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 1);
+}
+
+.bank-flash-div, .welcome-gift-div {
+	display: grid;
+	grid-template-columns: 35vw 40vw;
+	gap: 30px;
+	justify-content: space-around;
+	margin: 100px 0;
+	align-items: center;
+}
+.welcome-gift-div {
+	grid-template-columns: 40vw 35vw;
+}
+.bank-flash-image img, .welcome-gift-image img {
+	width: 100%;
+}
+
+.bank-flash-text h3, .bank-flash-text h1, .bank-flash-text p,
+.welcome-gift h3, .welcome-gift h1, .welcome-gift p {
+	margin: 10px 0;
+}
+.bank-flash-text h3, .welcome-gift-text h3 {
+	 color: #2487CE;
+	 font-size: 24px;
+}
+
+.bank-flash-text h1, .welcome-gift-text h1 {
+	font-size: 36px;
+	font-weight: 600;
+}
+
+.bank-flash-text p, .welcome-gift-text p {
+	 font-size: 18px;
+}
+
+@media screen and (max-width: 1000px) {
+	.welcome-gift-div {
+		flex-direction: column;
+	}
+
+	.welcome-gift-image {
+		order: -1;
+		margin-bottom: 20px;
+	}
+
+	.bank-flash-div, .welcome-gift-div {
+		grid-template-columns: 70vw;
+	}
+
+	@media (max-width: 650px) {
+		.open-account h1 {
+			font-size: 35px;
+		}
+		.open-account p {
+			font-size: 17px;
+		}
+		.open-account-button {
+			border-radius: 40px;
+			padding: 12px 24px;
+			font-weight: 600;
+			color: #fff;
+			font-size: 14px;
+		}
+
+		.bank-flash-text h3, .bank-flash-text h1, .bank-flash-text p,
+		.welcome-gift h3, .welcome-gift h1, .welcome-gift p {
+			text-align: center;
+		}
+		.bank-flash-text h3, .welcome-gift-text h3 {
+			font-size: 16px;
+		}
+
+		.bank-flash-text h1, .welcome-gift-text h1 {
+			font-size: 24px;
+			font-weight: 600;
+		}
+
+		.bank-flash-text p, .welcome-gift-text p {
+			 font-size: 12px;
+		}
+	}
+}
